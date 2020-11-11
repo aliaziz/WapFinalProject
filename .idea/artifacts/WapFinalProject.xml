@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="WapFinalProject:war exploded">
+  <artifact type="exploded-war" name="WapFinalProject">
     <output-path>$PROJECT_DIR$/target/WapFinalProject-v1</output-path>
     <properties id="maven-jee-properties">
       <options>
