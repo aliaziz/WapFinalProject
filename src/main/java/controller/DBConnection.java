@@ -19,20 +19,4 @@ public class DBConnection {
         }
         return connection;
     }
-
-    public static void test() {
-        Connection connection = DBConnection.getConnection();
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement("SELECT * FROM user");
-            ResultSet set = statement.executeQuery();
-            while (set.next()) {
-                String s = set.getString("user_id");
-                System.out.println(s);
-            }
-            System.out.println("Failed to get data, "+set.getFetchSize());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
 }

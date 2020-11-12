@@ -10,8 +10,11 @@ import java.io.IOException;
 @WebServlet(urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DBConnection.test();
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String userNameParam = req.getParameter("username");
+        String password = req.getParameter("password");
         req.getRequestDispatcher("home.jsp").forward(req, resp);
     }
+
+
 }
