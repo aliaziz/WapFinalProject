@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import dao.UserDataAccessObject;
 import model.User;
 import utils.Constants;
+import utils.ErrorType;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,9 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 
-@WebServlet(urlPatterns = "/registerServlet")
+@WebServlet(urlPatterns = Constants.REGISTER_URL)
 public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,11 +30,7 @@ public class RegisterServlet extends HttpServlet {
             session.setAttribute(Constants.USERNAME, user.getUserName());
             resp.sendRedirect("home.jsp");
         } else {
-            PrintWriter writer = resp.getWriter();
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
-            writer.print("{ 'error': 'Failed to login' }");
-            writer.flush();
+            resp.getWriter().write(ErrorType.getError(ErrorType.REGISTER_FAILED));
         }
     }
 }

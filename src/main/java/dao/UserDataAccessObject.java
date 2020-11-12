@@ -3,12 +3,11 @@ package dao;
 import model.User;
 import model.UserStatus;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDataAccessObject {
+public class UserDataAccessObject extends BaseDao {
     private User user;
 
     public UserDataAccessObject(User user) {
@@ -16,12 +15,11 @@ public class UserDataAccessObject {
     }
 
     public boolean saveUser() {
-        Connection connection = DBConnection.getConnection();
         boolean saved = false;
         try {
             String sql = "INSERT INTO user (user_name, gender, email, country, state, city, street, zipcode, status, password)" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            PreparedStatement statement = getConnection().prepareStatement(sql);
             statement.setString(1, user.getUserName());
             statement.setString(2, user.getGender());
             statement.setString(3, user.getEmail());
@@ -42,11 +40,10 @@ public class UserDataAccessObject {
     }
 
     public User getUser(String userName) {
-        Connection connection = DBConnection.getConnection();
         User user = null;
         try {
             String sql = "SELECT * FROM user where user_name = '"+userName+"'";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            PreparedStatement statement = getConnection().prepareStatement(sql);
             ResultSet set = statement.executeQuery();
 
             while (set.next()) {
