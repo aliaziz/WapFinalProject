@@ -47,5 +47,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-engine:1.6.2" level="project" />
     <orderEntry type="library" name="mysql:mysql-connector-java:8.0.21" level="project" />
     <orderEntry type="library" name="jstl:jstl:1.2" level="project" />
+    <orderEntry type="library" name="com.oracle.database.jdbc:ojdbc10:19.8.0.0" level="project" />
+    <orderEntry type="library" name="mysql:mysql-connector-java:8.0.11" level="project" />
   </component>
 </module>
