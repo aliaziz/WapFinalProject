@@ -8,28 +8,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDataAccessObject extends BaseDao {
-    private User user;
 
-    public UserDataAccessObject(User user) {
-        this.user = user;
-    }
-
-    public boolean saveUser() {
+    public boolean saveUser(User userObject) {
         boolean saved = false;
         try {
             String sql = "INSERT INTO user (user_name, gender, email, country, state, city, street, zipcode, status, password)" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = getConnection().prepareStatement(sql);
-            statement.setString(1, user.getUserName());
-            statement.setString(2, user.getGender());
-            statement.setString(3, user.getEmail());
-            statement.setString(4, user.getCountry());
-            statement.setString(5, user.getState());
-            statement.setString(6, user.getCity());
-            statement.setString(7, user.getStreet());
-            statement.setInt(8, user.getZipCode());
-            statement.setString(9, user.getStatus().name());
-            statement.setString(10, User.hashPassword(user.getPassword()));
+            statement.setString(1, userObject.getUserName());
+            statement.setString(2, userObject.getGender());
+            statement.setString(3, userObject.getEmail());
+            statement.setString(4, userObject.getCountry());
+            statement.setString(5, userObject.getState());
+            statement.setString(6, userObject.getCity());
+            statement.setString(7, userObject.getStreet());
+            statement.setInt(8, userObject.getZipCode());
+            statement.setString(9, userObject.getStatus().name());
+            statement.setString(10, User.hashPassword(userObject.getPassword()));
 
             saved = statement.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -64,5 +59,13 @@ public class UserDataAccessObject extends BaseDao {
             e.printStackTrace();
         }
         return user;
+    }
+
+    public boolean verifyUser(String userName, String password) {
+        User user = getUser(userName);
+        if (user == null) return false;
+
+        String hashedPassword = User.hashPassword(password);
+        return user.getPassword().equals(hashedPassword);
     }
 }
