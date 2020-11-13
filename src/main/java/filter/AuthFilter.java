@@ -13,19 +13,19 @@ import java.io.IOException;
 public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-//        HttpServletRequest request = (HttpServletRequest) servletRequest;
-//        HttpServletResponse response = (HttpServletResponse) servletResponse;
-//        HttpSession session = request.getSession();
-//
-//        Boolean isLogged = (Boolean) session.getAttribute(Constants.IS_LOGGED_IN);
-//        String loginJspUrl = "login.jsp";
-//
-//        if (isLogged == null && !(request.getRequestURI().endsWith(loginJspUrl)
-//                || request.getRequestURI().endsWith(Constants.LOGIN_URL)
-//                || request.getRequestURI().endsWith(Constants.REGISTER_URL))) {
-//            response.sendRedirect(loginJspUrl);
-//        } else {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+        HttpSession session = request.getSession();
+
+        Boolean isLogged = (Boolean) session.getAttribute(Constants.IS_LOGGED_IN);
+        String loginJspUrl = "login.jsp";
+
+        if (isLogged == null && !(request.getRequestURI().endsWith(loginJspUrl)
+                || request.getRequestURI().endsWith(Constants.LOGIN_URL)
+                || request.getRequestURI().endsWith(Constants.REGISTER_URL))) {
+            response.sendRedirect(loginJspUrl);
+        } else {
             filterChain.doFilter(servletRequest, servletResponse);
-//        }
+        }
     }
 }
