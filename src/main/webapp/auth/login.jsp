@@ -97,7 +97,8 @@
                                     <span>${param.errorMessage}</span>
                                 </c:if>
 
-<%--                                <a href="#">Forgot Password</a>--%>
+<%--                                <a href="recoverAcc.jsp">Forgot Password</a>--%>
+                                <a href="recoverAcc.jsp">Re-activate Account</a>
                             </div>
 
                         </div>

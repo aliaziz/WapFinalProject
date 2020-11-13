@@ -21,8 +21,7 @@ function onEmailFailure() {
     //Show error message.
 }
 
-function registerUser(event) {
-    event.preventDefault();
+function registerUser() {
     if (!hasError) {
         let userObject = {};
         userObject.email = $('#email').val();

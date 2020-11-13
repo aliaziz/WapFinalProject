@@ -69,7 +69,7 @@
                                 <input type="text" class="form-control" placeholder="Username...">
                             </div>
                             <div class="footer text-center">
-                                <a href="#pablo" class="btn btn-primary btn-round btn-md">Forgot Password</a>
+                                <a href="#pablo" class="btn btn-primary btn-round btn-md">Re-activate account</a>
                             </div>
                         </div>
 
