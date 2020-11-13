@@ -34,10 +34,10 @@ public class UserDataAccessObject extends BaseDao {
         return saved;
     }
 
-    public User getUser(String userName) {
+    public User getUser(String email) {
         User user = null;
         try {
-            String sql = "SELECT * FROM user where user_name = '"+userName+"'";
+            String sql = "SELECT * FROM user where email = '"+ email +"'";
             PreparedStatement statement = getConnection().prepareStatement(sql);
             ResultSet set = statement.executeQuery();
 
@@ -61,8 +61,8 @@ public class UserDataAccessObject extends BaseDao {
         return user;
     }
 
-    public boolean verifyUser(String userName, String password) {
-        User user = getUser(userName);
+    public boolean verifyUser(String email, String password) {
+        User user = getUser(email);
         if (user == null) return false;
 
         String hashedPassword = User.hashPassword(password);

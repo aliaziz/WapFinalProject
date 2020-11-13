@@ -18,21 +18,23 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
-    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png" />
-    <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png" />
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
 
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
 
     <!-- CSS Files -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="assets/css/material-bootstrap-wizard.css" rel="stylesheet" />
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/css/material-bootstrap-wizard.css" rel="stylesheet" />
+
+    <script src="../assets/js/registerUser.js"></script>
 
 </head>
 
 <body>
-<div class="image-container set-full-height" style="background-image: url('assets/img/bg7.jpg')">
+<div class="image-container set-full-height" style="background-image: url('../assets/img/bg7.jpg')">
     <a href="#">
         <div class="logo-container">
             <div class="brand">
@@ -80,8 +82,8 @@
 														<i class="material-icons">face</i>
 													</span>
                                                 <div class="form-group label-floating">
-                                                    <label class="control-label">First Name (required)</label>
-                                                    <input name="firstname" type="text" class="form-control" required>
+                                                    <label class="control-label">Full Name (required)</label>
+                                                    <input name="fullname" id="fullname" type="text" class="form-control" required>
                                                 </div>
                                             </div>
 
@@ -91,7 +93,9 @@
 													</span>
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Your Password</label>
-                                                    <input name="password" type="password" class="form-control" required>
+                                                    <input pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$"
+                                                           title="Password should be at least 6 letters and must include at least one upper case letter, one lower case letter, and one numeric digit."
+                                                           name="password" id="password" type="password" class="form-control" required>
                                                 </div>
                                             </div>
 
@@ -102,8 +106,8 @@
 														<i class="material-icons">face</i>
 													</span>
                                                 <div class="form-group label-floating">
-                                                    <label class="control-label">Last Name(required)</label>
-                                                    <input name="lastname" type="text" class="form-control" required>
+                                                    <label class="control-label">Username(required)</label>
+                                                    <input name="username" id="username" type="text" class="form-control" required>
                                                 </div>
                                             </div>
 
@@ -113,7 +117,7 @@
 													</span>
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Confirm Password</label>
-                                                    <input name="confirm" type="password" class="form-control">
+                                                    <input name="confirm" id="confirmPassword" type="password" class="form-control">
                                                 </div>
                                             </div>
 
@@ -125,7 +129,13 @@
 													</span>
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Your Email</label>
-                                                    <input name="email" type="email" class="form-control">
+                                                    <input required
+                                                           pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+                                                           title="Please enter a valid email address"
+                                                           name="email"
+                                                           id="email"
+                                                           onfocusout="validateEmail()"
+                                                           type="email" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -137,7 +147,7 @@
                                         <div class="col-sm-6">
                                             <div class="form-group label-floating">
                                                 <label class="control-label">Gender</label>
-                                                <select class="form-control">
+                                                <select class="form-control" name="gender" id="gender">
                                                     <option disabled="" selected=""></option>
                                                     <option value="Male"> Male </option>
                                                     <option value="Female"> Female </option>
@@ -146,17 +156,17 @@
                                             </div>
                                             <div class="form-group label-floating">
                                                 <label class="control-label">Street</label>
-                                                <input name="street" type="text" class="form-control" required>
+                                                <input name="street" id="street" type="text" class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group label-floating">
                                                 <!--													<label class="control-label">Birth date</label>-->
-                                                <input name="firstname" type="date" class="form-control" required>
+                                                <input name="firstname" id="firstname" type="date" class="form-control" required>
                                             </div>
                                             <div class="form-group label-floating">
                                                 <label class="control-label">City</label>
-                                                <input name="city" type="text" class="form-control" required>
+                                                <input name="city" id="city" type="text" class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -220,7 +230,9 @@
                                         <div class="col-sm-6">
                                             <div class="form-group label-floating">
                                                 <label class="control-label">Zip code</label>
-                                                <input name="zipcode" type="number" class="form-control" required>
+                                                <input pattern="^\d{5}$"
+                                                       title="Please enter a valid zip code."
+                                                       name="zipcode" id="zipcode" type="number" class="form-control" required>
                                             </div>
                                         </div>
                                     </div>
@@ -229,7 +241,7 @@
                             <div class="wizard-footer">
                                 <div class="pull-right">
                                     <input type='button' class='btn btn-next btn-fill btn-primary btn-round btn-wd' name='next' value='Next' />
-                                    <input type='button' class='btn btn-finish btn-fill btn-primary btn-round btn-wd' name='finish' value='Finish' />
+                                    <input type='button' onclick="registerUser();" class='btn btn-finish btn-fill btn-primary btn-round btn-wd' name='finish' value='Finish' />
                                 </div>
                                 <div class="pull-left">
                                     <input type='button' class='btn btn-previous btn-fill btn-default btn-round btn-wd' name='previous' value='Previous' />
@@ -263,15 +275,15 @@
 
 </body>
 <!--   Core JS Files   -->
-<script src="assets/js/jquery-2.2.4.min.js" type="text/javascript"></script>
-<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="assets/js/jquery.bootstrap.js" type="text/javascript"></script>
+<script src="../assets/js/jquery-2.2.4.min.js" type="text/javascript"></script>
+<script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../assets/js/jquery.bootstrap.js" type="text/javascript"></script>
 
 <!--  Plugin for the Wizard -->
-<script src="assets/js/material-bootstrap-wizard.js"></script>
+<script src="../assets/js/material-bootstrap-wizard.js"></script>
 
 <!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
-<script src="assets/js/jquery.validate.min.js"></script>
+<script src="../assets/js/jquery.validate.min.js"></script>
 
 </html>
 

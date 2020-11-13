@@ -8,8 +8,6 @@
 <body>
     Welcome home.
 
-    <div class="weather">
-        <h3></h3>
-    </div>
+    <a href="logoutServlet">Logout</a>
 </body>
 </html>

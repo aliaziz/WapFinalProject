@@ -1,6 +1,8 @@
 package filter;
 
 import utils.Constants;
+import utils.DomainUrl;
+import utils.ServletUrl;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -18,13 +20,14 @@ public class AuthFilter implements Filter {
         HttpSession session = request.getSession();
 
         Boolean isLogged = (Boolean) session.getAttribute(Constants.IS_LOGGED_IN);
-        String loginJspUrl = "login.jsp";
+        String uri = request.getRequestURI();
 
-        if (isLogged == null && !(request.getRequestURI().endsWith(loginJspUrl)
-                || request.getRequestURI().endsWith(Constants.LOGIN_URL)
-                || request.getRequestURI().endsWith(Constants.REGISTER_URL)
-                || request.getRequestURI().contains("assets"))) {
-            response.sendRedirect(loginJspUrl);
+        if (isLogged == null && !(uri.endsWith(ServletUrl.LOGIN_SERVLET)
+                || uri.endsWith(ServletUrl.REGISTER_SERVLET)
+                || uri.contains(Constants.AUTH)
+                || uri.contains(Constants.ASSETS)
+                || uri.endsWith(ServletUrl.LOGOUT_SERVLET))) {
+            response.sendRedirect(DomainUrl.LOGIN_URL);
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }

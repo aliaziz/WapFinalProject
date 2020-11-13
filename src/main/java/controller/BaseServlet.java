@@ -1,6 +1,7 @@
 package controller;
 
 import utils.Constants;
+import utils.DomainUrl;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,7 @@ public class BaseServlet extends HttpServlet {
         HttpSession session = req.getSession();
         session.setAttribute(Constants.USERNAME, userName);
         session.setAttribute(Constants.IS_LOGGED_IN, true);
-        resp.sendRedirect("home.jsp");
+        resp.sendRedirect(DomainUrl.HOME_URL);
     }
 
     public void clearAttributes(HttpServletRequest request) {
