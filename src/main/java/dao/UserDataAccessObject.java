@@ -12,19 +12,20 @@ public class UserDataAccessObject extends BaseDao {
     public boolean saveUser(User userObject) {
         boolean saved = false;
         try {
-            String sql = "INSERT INTO user (user_name, gender, email, country, state, city, street, zipcode, status, password)" +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO user (user_name, gender, email, full_name, state, city, street, zipcode, status, password, user_role_id)" +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = getConnection().prepareStatement(sql);
             statement.setString(1, userObject.getUserName());
             statement.setString(2, userObject.getGender());
             statement.setString(3, userObject.getEmail());
-            statement.setString(4, userObject.getCountry());
+            statement.setString(4, userObject.getFullname());
             statement.setString(5, userObject.getState());
             statement.setString(6, userObject.getCity());
             statement.setString(7, userObject.getStreet());
             statement.setInt(8, userObject.getZipCode());
             statement.setString(9, userObject.getStatus().name());
             statement.setString(10, User.hashPassword(userObject.getPassword()));
+            statement.setInt(11, 1);
 
             saved = statement.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -47,7 +48,7 @@ public class UserDataAccessObject extends BaseDao {
                         set.getString("user_name"),
                         set.getString("password"),
                         set.getString("state"),
-                        set.getString("country"),
+                        set.getString("full_name"),
                         set.getString("street"),
                         set.getString("city"),
                         set.getString("gender"),

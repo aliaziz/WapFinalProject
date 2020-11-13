@@ -56,7 +56,7 @@
                 <!--      Wizard container        -->
                 <div class="wizard-container">
                     <div class="card wizard-card" data-color="purple" id="wizard">
-                        <form action="" method="">
+                        <form action="registerServlet" method="POST">
                             <div class="wizard-header">
                                 <h3 class="wizard-title">
                                     Create your Profile
@@ -241,7 +241,7 @@
                             <div class="wizard-footer">
                                 <div class="pull-right">
                                     <input type='button' class='btn btn-next btn-fill btn-primary btn-round btn-wd' name='next' value='Next' />
-                                    <input type='button' onclick="registerUser();" class='btn btn-finish btn-fill btn-primary btn-round btn-wd' name='finish' value='Finish' />
+                                    <input type='submit' class='btn btn-finish btn-fill btn-primary btn-round btn-wd' name='finish' value='Finish' />
                                 </div>
                                 <div class="pull-left">
                                     <input type='button' class='btn btn-previous btn-fill btn-default btn-round btn-wd' name='previous' value='Previous' />

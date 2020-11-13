@@ -10,19 +10,19 @@ public class User {
     String userName;
     String password;
     String state;
-    String country;
+    String fullname;
     String street;
     String city;
     String gender;
     UserStatus status;
     int zipCode;
 
-    public User(String email, String userName, String password, String state, String country, String street, String city, String gender, UserStatus status, int zipCode) {
+    public User(String email, String userName, String password, String state, String fullname, String street, String city, String gender, UserStatus status, int zipCode) {
         this.email = email;
         this.userName = userName;
         this.password = password;
         this.state = state;
-        this.country = country;
+        this.fullname = fullname;
         this.street = street;
         this.city = city;
         this.gender = gender;
@@ -46,8 +46,8 @@ public class User {
         return state;
     }
 
-    public String getCountry() {
-        return country;
+    public String getFullname() {
+        return fullname;
     }
 
     public String getCity() {
