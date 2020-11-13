@@ -17375,6 +17375,9 @@ footer .pull-center {
 .card-login .form {
   min-height: 420px;
 }
+.card-login .form1 {
+  min-height: 220px;
+}
 
 .card-login .social-line {
   margin-top: 1rem;
