@@ -22,7 +22,8 @@ public class AuthFilter implements Filter {
 
         if (isLogged == null && !(request.getRequestURI().endsWith(loginJspUrl)
                 || request.getRequestURI().endsWith(Constants.LOGIN_URL)
-                || request.getRequestURI().endsWith(Constants.REGISTER_URL))) {
+                || request.getRequestURI().endsWith(Constants.REGISTER_URL)
+                || request.getRequestURI().contains("assets"))) {
             response.sendRedirect(loginJspUrl);
         } else {
             filterChain.doFilter(servletRequest, servletResponse);

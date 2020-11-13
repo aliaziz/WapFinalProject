@@ -16,4 +16,8 @@ public class BaseServlet extends HttpServlet {
         session.setAttribute(Constants.IS_LOGGED_IN, true);
         resp.sendRedirect("home.jsp");
     }
+
+    public void clearAttributes(HttpServletRequest request) {
+        request.getSession().invalidate();
+    }
 }

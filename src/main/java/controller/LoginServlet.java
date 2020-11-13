@@ -21,7 +21,13 @@ public class LoginServlet extends BaseServlet {
         if (userDao.verifyUser(userName, userPassword)) {
             setSessionData(userName, req, resp);
         } else {
-            resp.getWriter().write(ErrorType.getError(ErrorType.LOGIN_FAILED));
+            String errorMessage = ErrorType.getError(ErrorType.LOGIN_FAILED);
+            resp.sendRedirect("loginServlet?error=true&errorMessage="+errorMessage);
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("login.jsp").forward(req, resp);
     }
 }
