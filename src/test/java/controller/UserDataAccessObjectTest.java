@@ -10,8 +10,8 @@ class UserDataAccessObjectTest {
 
     @Test
     void saveUser() {
-        UserDataAccessObject userDataAccessObject = new UserDataAccessObject(UserDataAccessObjectTest.getUser());
-        userDataAccessObject.saveUser();
+        UserDataAccessObject userDataAccessObject = new UserDataAccessObject();
+        userDataAccessObject.saveUser(UserDataAccessObjectTest.getUser());
         User tempUser = userDataAccessObject.getUser("aku");
         Assertions.assertEquals(tempUser.getZipCode(), UserDataAccessObjectTest.getUser().getZipCode());
     }
