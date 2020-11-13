@@ -39,7 +39,13 @@ public class RegisterServlet extends BaseServlet {
         if (inserted) {
             setSessionData(user.getUserName(), req, resp);
         } else {
-            resp.getWriter().write(ErrorType.getError(ErrorType.REGISTER_FAILED));
+            String errorMessage = ErrorType.getError(ErrorType.REGISTER_FAILED);
+            resp.sendRedirect("registerServlet?error=true&errorMessage="+errorMessage);
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("register.jsp").forward(req, resp);
     }
 }

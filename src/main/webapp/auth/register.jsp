@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -249,10 +250,13 @@
                                     <div class="footer-checkbox">
                                         <div class="col-sm-12">
                                             <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" name="optionsCheckboxes">
-                                                </label>
-                                                Subscribe to our newsletter
+<%--                                                <label>--%>
+<%--                                                    <input type="checkbox" name="optionsCheckboxes">--%>
+<%--                                                </label>--%>
+<%--                                                Subscribe to our newsletter--%>
+                                                <c:if test="${param.error}">
+                                                    ${param.errorMessage}
+                                                </c:if>
                                             </div>
                                         </div>
                                     </div>
