@@ -3,6 +3,7 @@ package model;
 public class Post {
     String postImageUrl;
     String description;
+    String posterFullName;
     int likes;
     int postId;
     int userId;
@@ -12,6 +13,14 @@ public class Post {
         this.description = description;
         this.likes = likes;
         this.userId = userId;
+    }
+
+    public String getPosterFullName() {
+        return posterFullName;
+    }
+
+    public void setPosterFullName(String posterFullName) {
+        this.posterFullName = posterFullName;
     }
 
     public void setPostId(int postId) {

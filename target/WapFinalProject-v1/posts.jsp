@@ -10,12 +10,18 @@
 <html>
 <head>
     <title>Posts</title>
+    <script src="assets/js/core/jquery.min.js"></script>
+    <script src="assets/js/post.js"></script>
 </head>
 <body>
 <ul>
     <c:forEach var="post" items="${sessionScope.posts}">
         <li>${post.description} has likes ${post.likes}</li>
-        <a href="commentServlet?postId=${post.postId}">Comment</a>
+
+        <textarea name="comment" id="comment">Comment</textarea>
+        <button name="postComment" onclick="saveComment(${post.postId})">Make Comment</button>
+        <br>
+        <button onclick="getComments(${post.postId})">Fetch comments</button>
     </c:forEach>
 </ul>
 </body>

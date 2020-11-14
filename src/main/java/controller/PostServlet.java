@@ -1,5 +1,6 @@
 package controller;
 
+import com.google.gson.Gson;
 import dao.PostDao;
 import dao.UserDataAccessObject;
 import model.Post;
@@ -19,14 +20,14 @@ public class PostServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PostDao postDao = new PostDao();
-        HttpSession session = req.getSession();
-
-        int userId = (int) session.getAttribute(Constants.USER_ID);
+        int userId = getSessionUserId(req);
 
         if (userId > 0) {
+            Gson gson = new Gson();
             List<Post> postList = postDao.getPosts(userId);
-            session.setAttribute("posts", postList);
-            resp.sendRedirect("posts.jsp");
+            String jsonString = gson.toJson(postList);
+            resp.setContentType("application/json");
+            resp.getWriter().write(jsonString);
         } else {
             //Remove after uncommenting the auth-filter
         }
@@ -37,10 +38,9 @@ public class PostServlet extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String description = req.getParameter("postDescription");
         String image = req.getParameter("postImage");
-        HttpSession session = req.getSession();
 
         int likes = Integer.parseInt(req.getParameter("likes"));
-        int userId = (int) session.getAttribute(Constants.USER_ID);
+        int userId = getSessionUserId(req);
 
         PostDao postDao = new PostDao();
         Post post = new Post(image, description, likes, userId);

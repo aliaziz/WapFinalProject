@@ -27,4 +27,27 @@ public class ProfileServlet extends BaseServlet {
         session.setAttribute("profile", profile);
         resp.sendRedirect("profile.jsp");
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String userName = req.getParameter("userName");
+        String gender = req.getParameter("gender");
+        String email = req.getParameter("email");
+        String fullName = req.getParameter("fullName");
+        String state = req.getParameter("state");
+        String city = req.getParameter("city");
+        String street = req.getParameter("street");
+        int zipCode = Integer.parseInt(req.getParameter("zipCode"));
+
+        Profile profile = new Profile(userName, gender, email,
+                fullName, state, city, street, zipCode);
+        UserDataAccessObject userDao = new UserDataAccessObject();
+        boolean isUpdated = userDao.updateProfile(profile);
+
+        if (isUpdated) {
+            resp.getWriter().write("success");
+        } else {
+            resp.getWriter().write("failed");
+        }
+    }
 }

@@ -7,10 +7,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@include file="assets/js/post.js"%>
 <html>
 <head>
     <title>Posts</title>
+    <script src="assets/js/core/jquery.min.js"></script>
+    <script src="assets/js/post.js"></script>
 </head>
 <body>
 <ul>
@@ -18,10 +19,9 @@
         <li>${post.description} has likes ${post.likes}</li>
 
         <textarea name="comment" id="comment">Comment</textarea>
-        <textarea id="post_id" hidden>${post.postId}</textarea>
-        <button name="postComment" onclick="makeComment()">Make Comment</button>
+        <button name="postComment" onclick="saveComment(${post.postId})">Make Comment</button>
         <br>
-        <a href="commentServlet?postId=${post.postId}">Comment</a>
+        <button onclick="getComments(${post.postId})">Fetch comments</button>
     </c:forEach>
 </ul>
 </body>

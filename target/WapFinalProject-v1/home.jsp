@@ -13,7 +13,8 @@
     <a href="profileServlet">Profile</a>
     <a href="postServlet">Post</a>
     <textarea name="post" id="post">Post</textarea>
-    <button name="postPost" onclick="makePost()">Post Comment</button>
+    <button name="postPost" onclick="makePost()">Make Post</button><br>
+    <button onclick="getPost()">Get post</button>
     <script>
 
     </script>

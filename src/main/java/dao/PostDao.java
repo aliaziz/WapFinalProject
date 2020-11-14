@@ -16,9 +16,15 @@ public class PostDao extends BaseDao {
         List<Post> postList = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM post_tbl " +
-                    "where post_user_id in " +
-                    "(select person_i_follow_id from my_following_tbl where my_id = '" + userId + "')";
+            String sql = "SELECT u.full_name," +
+                    " p.post_id," +
+                    " p.post_image_url," +
+                    " p.post_desc," +
+                    " p.likes_count FROM post_tbl p, user u" +
+                    " where p.post_user_id = u.user_id" +
+                    " and post_user_id in " +
+                    "(select person_i_follow_id from my_following_tbl where my_id = '" + userId + "')" +
+                    " ORDER BY post_date";
             PreparedStatement statement = getConnection().prepareStatement(sql);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
@@ -29,6 +35,7 @@ public class PostDao extends BaseDao {
                         userId
                 );
                 post.setPostId(set.getInt("post_id"));
+                post.setPosterFullName(set.getString("full_name"));
                 postList.add(post);
             }
 

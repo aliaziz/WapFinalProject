@@ -105,14 +105,30 @@ public class UserDataAccessObject extends BaseDao {
         if (user == null) return 0;
 
         String hashedPassword = User.hashPassword(password);
-        if (user.getPassword().equals(hashedPassword)) {
+        if (user.getPassword().equals(hashedPassword) && user.getStatus() == UserStatus.ACTIVE) {
             return user.getRoleId();
         } else {
-            return 0;
+            return -1;
         }
     }
 
     public int getUserRole(User user) {
         return user.getRoleId();
+    }
+
+    public boolean changeUserStatus(int userId, boolean status) {
+        String statusString = status ? UserStatus.ACTIVE.name() : UserStatus.INACTIVE.name();
+        boolean updated = false;
+
+        try {
+            String sql = "UPDATE user SET status " +
+                    "= '" + statusString + "' " +
+                    "WHERE userId = '" + userId + "'";
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            updated = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return updated;
     }
 }
