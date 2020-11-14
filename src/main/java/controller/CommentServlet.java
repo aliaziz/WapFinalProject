@@ -24,6 +24,7 @@ public class CommentServlet extends BaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        int postId = Integer.parseInt(req.getParameter("postId"));
+        String comment = req.getParameter("comment");
     }
 }
