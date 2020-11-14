@@ -1,5 +1,6 @@
 package dao;
 
+import model.Profile;
 import model.User;
 import model.UserStatus;
 
@@ -25,7 +26,7 @@ public class UserDataAccessObject extends BaseDao {
             statement.setInt(8, userObject.getZipCode());
             statement.setString(9, userObject.getStatus().name());
             statement.setString(10, User.hashPassword(userObject.getPassword()));
-            statement.setInt(11, 1);
+            statement.setInt(11, userObject.getRoleId());
 
             saved = statement.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -53,7 +54,8 @@ public class UserDataAccessObject extends BaseDao {
                         set.getString("city"),
                         set.getString("gender"),
                         UserStatus.valueOf(set.getString("status")),
-                        set.getInt("zipcode")
+                        set.getInt("zipcode"),
+                        set.getInt("user_role_id")
                 );
             }
         } catch (SQLException e) {
@@ -62,11 +64,55 @@ public class UserDataAccessObject extends BaseDao {
         return user;
     }
 
-    public boolean verifyUser(String email, String password) {
+    public int getUserId(String email) {
+        int userId = -1;
+        try {
+            String sql = "SELECT user_id FROM user where email = '"+ email +"'";
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            ResultSet set = statement.executeQuery();
+
+            while (set.next()) {
+               userId = set.getInt("user_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userId;
+    }
+
+    public boolean updateProfile(Profile profile) {
+        boolean saved = false;
+        try {
+            String sql = "UPDATE user SET " +
+                    "gender='"+profile.getGender()+"'," +
+                    "full_name='"+profile.getFullName()+"'," +
+                    "state='"+profile.getState()+"', " +
+                    "city='"+profile.getCity()+"', " +
+                    "street='"+profile.getStreet()+"'," +
+                    "zipcode='"+profile.getZipCode()+"' WHERE email='"+profile.getEmail()+"'";
+
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            saved = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return saved;
+    }
+
+    public int verifyUser(String email, String password) {
         User user = getUser(email);
-        if (user == null) return false;
+        if (user == null) return 0;
 
         String hashedPassword = User.hashPassword(password);
-        return user.getPassword().equals(hashedPassword);
+        if (user.getPassword().equals(hashedPassword)) {
+            return user.getRoleId();
+        } else {
+            return 0;
+        }
+    }
+
+    public int getUserRole(User user) {
+        return user.getRoleId();
     }
 }

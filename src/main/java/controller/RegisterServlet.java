@@ -31,13 +31,13 @@ public class RegisterServlet extends BaseServlet {
         String zipCode = req.getParameter("zipcode");
         User user = new User(email, userName, password, state,
                 fullName, street, city, gender, UserStatus.valueOf(status),
-                Integer.parseInt(zipCode));
+                Integer.parseInt(zipCode), 1);
 
         UserDataAccessObject userDataAccessObject = new UserDataAccessObject();
         boolean inserted = userDataAccessObject.saveUser(user);
 
         if (inserted) {
-            setSessionData(user.getUserName(), req, resp);
+            setSessionData(user.getEmail(), 1, req, resp);
         } else {
             String errorMessage = ErrorType.getError(ErrorType.REGISTER_FAILED);
             resp.sendRedirect("registerServlet?error=true&errorMessage="+errorMessage);

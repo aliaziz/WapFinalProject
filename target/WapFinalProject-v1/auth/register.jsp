@@ -255,7 +255,7 @@
 <%--                                                </label>--%>
 <%--                                                Subscribe to our newsletter--%>
                                                 <c:if test="${param.error}">
-                                                    ${param.errorMessage};
+                                                    ${param.errorMessage}
                                                 </c:if>
                                             </div>
                                         </div>

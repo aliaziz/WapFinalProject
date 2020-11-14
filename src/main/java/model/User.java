@@ -16,8 +16,10 @@ public class User {
     String gender;
     UserStatus status;
     int zipCode;
+    int roleId;
 
-    public User(String email, String userName, String password, String state, String fullname, String street, String city, String gender, UserStatus status, int zipCode) {
+    public User(String email, String userName, String password, String state, String fullname,
+                String street, String city, String gender, UserStatus status, int zipCode, int roleId) {
         this.email = email;
         this.userName = userName;
         this.password = password;
@@ -28,6 +30,11 @@ public class User {
         this.gender = gender;
         this.status = status;
         this.zipCode = zipCode;
+        this.roleId = roleId;
+    }
+
+    public int getRoleId() {
+        return roleId;
     }
 
     public String getEmail() {
@@ -82,5 +89,9 @@ public class User {
         }
 
         return hashedPassword;
+    }
+
+    public Profile getProfile() {
+        return new Profile(userName, gender, email, fullname, state, city, street, zipCode);
     }
 }

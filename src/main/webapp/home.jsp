@@ -9,5 +9,7 @@
     Welcome home.
 
     <a href="logoutServlet">Logout</a>
+    <a href="profileServlet">Profile</a>
+    <a href="postServlet">Post</a>
 </body>
 </html>

@@ -75,8 +75,8 @@
                       <i class="material-icons">face</i>
                     </span>
                                 </div>
-                                <input type="text" name="userName" required class="form-control"
-                                       placeholder="Username...">
+                                <input type="text" name="email" required class="form-control"
+                                       placeholder="Email...">
                             </div>
                             <div class="input-group">
                                 <div class="input-group-prepend">
