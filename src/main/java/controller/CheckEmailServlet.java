@@ -19,6 +19,7 @@ public class CheckEmailServlet extends BaseServlet {
         User user = userDataAccessObject.getUser(email);
 
         if (user != null) {
+            resp.setContentType("text/plain");
             resp.sendError(406, "Email already exists");
         } else {
             resp.getWriter().write(200);

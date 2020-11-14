@@ -17,12 +17,13 @@ import static utils.Constants.AUTH;
 public class LoginServlet extends BaseServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String userName = req.getParameter("userName");
+        String email = req.getParameter("email");
         String userPassword = req.getParameter("password");
 
         UserDataAccessObject userDao = new UserDataAccessObject();
-        if (userDao.verifyUser(userName, userPassword)) {
-            setSessionData(userName, req, resp);
+        int roleId = userDao.verifyUser(email, userPassword);
+        if (roleId > 0) {
+            setSessionData(email, roleId, req, resp);
         } else {
             String errorMessage = ErrorType.getError(ErrorType.LOGIN_FAILED);
             resp.sendRedirect("loginServlet?error=true&errorMessage="+errorMessage);
@@ -31,6 +32,6 @@ public class LoginServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher(DomainUrl.LOGIN_URL).forward(req, resp);
+        req.getRequestDispatcher("login.jsp").forward(req, resp);
     }
 }

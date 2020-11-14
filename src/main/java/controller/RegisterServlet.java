@@ -3,6 +3,7 @@ package controller;
 import com.google.gson.Gson;
 import dao.UserDataAccessObject;
 import model.User;
+import model.UserStatus;
 import utils.ErrorType;
 import utils.ServletUrl;
 
@@ -18,16 +19,33 @@ import java.io.IOException;
 public class RegisterServlet extends BaseServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Gson gson = new Gson();
-        String jsonString = req.getParameter("data");
-        User user = gson.fromJson(jsonString, User.class);
+        String email =  req.getParameter("email");
+        String userName = req.getParameter("username");
+        String password = req.getParameter("password");
+        String state = req.getParameter("state");
+        String fullName = req.getParameter("fullname");
+        String street = req.getParameter("street");
+        String city =  req.getParameter("city");
+        String gender =  req.getParameter("gender");
+        String status = "ACTIVE";
+        String zipCode = req.getParameter("zipcode");
+        User user = new User(email, userName, password, state,
+                fullName, street, city, gender, UserStatus.valueOf(status),
+                Integer.parseInt(zipCode), 1);
+
         UserDataAccessObject userDataAccessObject = new UserDataAccessObject();
         boolean inserted = userDataAccessObject.saveUser(user);
 
         if (inserted) {
-            setSessionData(user.getUserName(), req, resp);
+            setSessionData(user.getEmail(), 1, req, resp);
         } else {
-            resp.getWriter().write(ErrorType.getError(ErrorType.REGISTER_FAILED));
+            String errorMessage = ErrorType.getError(ErrorType.REGISTER_FAILED);
+            resp.sendRedirect("registerServlet?error=true&errorMessage="+errorMessage);
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("register.jsp").forward(req, resp);
     }
 }

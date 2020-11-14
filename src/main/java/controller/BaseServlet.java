@@ -11,11 +11,13 @@ import java.io.IOException;
 
 public class BaseServlet extends HttpServlet {
 
-    public void setSessionData(String userName, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void setSessionData(String email, int roleId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
-        session.setAttribute(Constants.USERNAME, userName);
+        session.setAttribute(Constants.USER_EMAIL, email);
         session.setAttribute(Constants.IS_LOGGED_IN, true);
-        resp.sendRedirect(DomainUrl.HOME_URL);
+
+        if (roleId == 1) resp.sendRedirect(DomainUrl.HOME_URL);
+        else resp.sendRedirect(DomainUrl.ADMIN_URL);
     }
 
     public void clearAttributes(HttpServletRequest request) {
