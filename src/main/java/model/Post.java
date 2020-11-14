@@ -5,11 +5,13 @@ public class Post {
     String description;
     int likes;
     int postId;
+    int userId;
 
-    public Post(String postImageUrl, String description, int likes) {
+    public Post(String postImageUrl, String description, int likes, int userId) {
         this.postImageUrl = postImageUrl;
         this.description = description;
         this.likes = likes;
+        this.userId = userId;
     }
 
     public void setPostId(int postId) {
@@ -18,6 +20,10 @@ public class Post {
 
     public int getPostId() {
         return postId;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     public String getPostImageUrl() {

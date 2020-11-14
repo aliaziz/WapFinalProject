@@ -21,4 +21,9 @@ public class CommentServlet extends BaseServlet {
         req.setAttribute("comments", commentList);
         req.getRequestDispatcher("comments.jsp").forward(req, resp);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    }
 }
