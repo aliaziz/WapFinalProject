@@ -1,7 +1,7 @@
 package utils;
 
 public enum ErrorType {
-    LOGIN_FAILED, REGISTER_FAILED, POST_FAILED, FAILED_ATTEMPT;
+    LOGIN_FAILED, REGISTER_FAILED, POST_FAILED, ACCOUNT_BLOCKED_ERROR;
 
     public static String getError(ErrorType errorType) {
         String errorResponse = null;
@@ -15,7 +15,7 @@ public enum ErrorType {
                 errorResponse = "Error posting data";
                 break;
             }
-            case FAILED_ATTEMPT: {
+            case ACCOUNT_BLOCKED_ERROR: {
                 errorResponse = "Account blocked, contact admin.";
                 break;
             }

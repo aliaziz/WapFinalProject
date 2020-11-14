@@ -123,7 +123,7 @@ public class UserDataAccessObject extends BaseDao {
         try {
             String sql = "UPDATE user SET status " +
                     "= '" + statusString + "' " +
-                    "WHERE userId = '" + userId + "'";
+                    "WHERE user_id = '" + userId + "'";
             PreparedStatement statement = getConnection().prepareStatement(sql);
             updated = statement.executeUpdate() > 0;
         } catch (SQLException e) {

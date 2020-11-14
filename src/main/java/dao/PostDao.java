@@ -63,4 +63,8 @@ public class PostDao extends BaseDao {
 
         return isSaved;
     }
+
+    public List<Post> searchPost(String query) {
+
+    }
 }

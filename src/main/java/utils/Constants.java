@@ -7,4 +7,5 @@ public class Constants {
     public static final String USER_ID = "user_id";
     public static final String ASSETS ="assets";
     public static final String AUTH = "auth";
+    public static final String DB_CONNECTION = "db_connection";
 }

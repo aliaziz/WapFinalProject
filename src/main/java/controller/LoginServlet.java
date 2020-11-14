@@ -2,7 +2,6 @@ package controller;
 
 import dao.UserDataAccessObject;
 import utils.Constants;
-import utils.DomainUrl;
 import utils.ErrorType;
 import utils.ServletUrl;
 
@@ -27,24 +26,31 @@ public class LoginServlet extends BaseServlet {
         if (roleId > 0) {
             setSessionData(email, roleId, req, resp);
         } else if(roleId == -1) {
-
-            HttpSession session = getSession(req);
-            int loginAttempt = (Integer) session.getAttribute(Constants.LOGIN_ATTEMPT);
-            if (loginAttempt >= 3) {
-                int userId = userDao.getUserId(email);
-                boolean deactivated = userDao.changeUserStatus(userId, false);
-                if (deactivated) {
-                    String errorMessage = ErrorType.getError(ErrorType.FAILED_ATTEMPT);
-                    resp.sendRedirect("loginServlet?error=true&errorMessage="+errorMessage);
-                }
-            } else {
-                session.setAttribute(Constants.LOGIN_ATTEMPT, ++loginAttempt);
-            }
-
+            handleLoginAttempt(req, resp, email, userDao);
         } else {
-            String errorMessage = ErrorType.getError(ErrorType.LOGIN_FAILED);
-            resp.sendRedirect("loginServlet?error=true&errorMessage="+errorMessage);
+            errorRedirect(resp, ErrorType.LOGIN_FAILED);
         }
+    }
+
+    private void handleLoginAttempt(HttpServletRequest req, HttpServletResponse resp, String email, UserDataAccessObject userDao) throws IOException {
+        HttpSession session = getSession(req);
+        int loginAttempt = session.getAttribute(Constants.LOGIN_ATTEMPT) == null ?
+                0 : (Integer)session.getAttribute(Constants.LOGIN_ATTEMPT);
+        if (loginAttempt >= 3) {
+            int userId = userDao.getUserId(email);
+            boolean deactivated = userDao.changeUserStatus(userId, false);
+            if (deactivated) {
+                errorRedirect(resp, ErrorType.ACCOUNT_BLOCKED_ERROR);
+            }
+        } else {
+            session.setAttribute(Constants.LOGIN_ATTEMPT, ++loginAttempt);
+            errorRedirect(resp, ErrorType.LOGIN_FAILED);
+        }
+    }
+
+    private void errorRedirect(HttpServletResponse resp, ErrorType errorType) throws IOException {
+        String errorMessage = ErrorType.getError(errorType);
+        resp.sendRedirect("loginServlet?error=true&errorMessage="+errorMessage);
     }
 
     @Override
