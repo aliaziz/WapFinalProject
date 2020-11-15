@@ -1,5 +1,6 @@
 package controller;
 
+import com.google.gson.Gson;
 import dao.PostDao;
 import dao.UserDataAccessObject;
 import model.Post;
@@ -19,19 +20,52 @@ public class PostServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PostDao postDao = new PostDao();
-        UserDataAccessObject userDao = new UserDataAccessObject();
-        HttpSession session = req.getSession();
+        int userId = getSessionUserId(req);
 
-        String userEmail = (String) session.getAttribute(Constants.USER_EMAIL);
-        int userId = userDao.getUserId(userEmail);
+        String query = req.getParameter("query");
+        if (query != null) {
+            getSearchedPosts(postDao, resp, query);
+        } else {
+            getPostsFromFollowed(resp, postDao, userId);
+        }
+    }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String description = req.getParameter("postDescription");
+        String image = req.getParameter("postImage");
+
+        int likes = Integer.parseInt(req.getParameter("likes"));
+        int userId = getSessionUserId(req);
+
+        PostDao postDao = new PostDao();
+        Post post = new Post(image, description, likes, userId);
+        boolean inserted = postDao.savePost(post);
+
+        if (inserted) {
+            resp.getWriter().write("Success");
+        } else {
+            resp.sendError(406, "Failed to post");
+        }
+    }
+
+    private void getSearchedPosts(PostDao postDao, HttpServletResponse resp, String query) throws IOException {
+        Gson gson = new Gson();
+        List<Post> postList = postDao.searchPost(query);
+        String jsonString = gson.toJson(postList);
+        resp.setContentType("application/json");
+        resp.getWriter().write(jsonString);
+    }
+
+    private void getPostsFromFollowed(HttpServletResponse resp, PostDao postDao, int userId) throws IOException {
         if (userId > 0) {
+            Gson gson = new Gson();
             List<Post> postList = postDao.getPosts(userId);
-            session.setAttribute("posts", postList);
-            resp.sendRedirect("posts.jsp");
+            String jsonString = gson.toJson(postList);
+            resp.setContentType("application/json");
+            resp.getWriter().write(jsonString);
         } else {
             //Remove after uncommenting the auth-filter
         }
-
     }
 }

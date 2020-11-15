@@ -1,6 +1,5 @@
 package controller;
 
-import com.google.gson.Gson;
 import dao.UserDataAccessObject;
 import model.User;
 import model.UserStatus;
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//import static utils.Constants.AUTH;
+import static utils.Constants.AUTH;
 
 @WebServlet(urlPatterns = {ServletUrl.REGISTER_SERVLET, "/"+AUTH+ServletUrl.REGISTER_SERVLET})
 public class RegisterServlet extends BaseServlet {

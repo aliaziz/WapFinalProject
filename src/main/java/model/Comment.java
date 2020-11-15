@@ -5,11 +5,20 @@ public class Comment {
     private int postId;
     private int userId;
     private String comment;
+    private String fullName;
 
     public Comment(int postId, int userId, String comment) {
         this.postId = postId;
         this.userId = userId;
         this.comment = comment;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public void setCommentId(int commentId) {
