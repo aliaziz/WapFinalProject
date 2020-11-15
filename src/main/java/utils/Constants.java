@@ -8,4 +8,6 @@ public class Constants {
     public static final String ASSETS ="assets";
     public static final String AUTH = "auth";
     public static final String DB_CONNECTION = "db_connection";
+    public static final String POST_FILES_DIR_FILE = "POST_FILES_DIR_FILE";
+    public static final String POST_FILES_DIR = "POST_FILES_DIR";
 }

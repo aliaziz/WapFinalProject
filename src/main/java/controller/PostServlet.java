@@ -3,6 +3,7 @@ package controller;
 import com.google.gson.Gson;
 import dao.PostDao;
 import model.Post;
+import utils.Constants;
 import utils.ServletUrl;
 
 import javax.imageio.ImageIO;
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class PostServlet extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String description = req.getParameter("postDescription");
         Part image = req.getPart("postImage");
-        String imagePath = saveImage(image);
+        String imagePath = saveImage(image, req);
         double postLat = Double.parseDouble(req.getParameter("postLat"));
         double postLong = Double.parseDouble(req.getParameter("postLon"));
 
@@ -71,8 +71,22 @@ public class PostServlet extends BaseServlet {
         }
     }
 
-    private String saveImage(Part part) throws IOException {
-        File f = new File(System.getProperty("user.dir")+"/itravelImages/");
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int postId = Integer.parseInt(req.getParameter("postId"));
+        String query = req.getParameter("query");
+        int userId = getSessionUserId(req);
+        PostDao postDao = new PostDao();
+
+        if (query.equals("likes")) {
+            int likesCount = postDao.likeOrUnlikePost(true, postId, userId);
+            resp.getWriter().write(likesCount);
+        }
+    }
+
+    private String saveImage(Part part, HttpServletRequest request) throws IOException {
+        String storagePath = request.getServletContext().getAttribute(Constants.POST_FILES_DIR)+"/itravelImages/";
+        File f = new File(storagePath);
         if (!f.exists()) {
             f.mkdir();
         }

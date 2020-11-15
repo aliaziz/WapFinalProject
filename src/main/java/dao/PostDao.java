@@ -118,4 +118,26 @@ public class PostDao extends BaseDao {
         }
         return deleted;
     }
+
+    public int likeOrUnlikePost(boolean shouldLike, int postId, int userId) {
+        int countIncrementer = shouldLike ? 1 : -1;
+        int likesCount = 0;
+        try {
+            String sql = "UPDATE post_tbl SET likes_count = likes_count + '"+countIncrementer+"' " +
+                    "WHERE post_id = '"+postId+"'";
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+
+            if(statement.executeUpdate() > 0) {
+                String likedSql = "SELECT likes_count FROM post_tbl WHERE post_id='"+postId+"'";
+                statement = getConnection().prepareStatement(likedSql);
+                ResultSet set = statement.executeQuery();
+                while (set.next()) {
+                    likesCount = set.getInt("likes_count");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return likesCount;
+    }
 }

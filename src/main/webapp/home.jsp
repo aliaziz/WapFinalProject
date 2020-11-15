@@ -25,6 +25,7 @@
     <br>
     <textarea id="postSearch"></textarea>
     <button onclick="searchPost()">Search Post</button>
+    <button onclick="likePost(1)">like Post 1</button>
 
 
     <br>

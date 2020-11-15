@@ -6,7 +6,6 @@ $(document).ready(function() {
 })
 
 function makePost() {
-    let post = $('#post').val();
     let formId = $('#postUploadForm')[0];
     let formData = new FormData(formId);
     formData.append("postLat", '43.0');
@@ -23,11 +22,9 @@ function makePost() {
         cache: false,
         success: function(data) {
             console.log("the data "+data);
-
         },
         error: function() {
             console.log("failed.");
-
         }
     });
 }
@@ -150,5 +147,13 @@ function deletePost(postId) {
 }
 
 function likePost(postId) {
-
+    $.ajax('postServlet', {
+        type: 'PUT',
+        postId: 1,
+        query: 'like'
+    }).done(function(data) {
+        console.log(data);
+    }).fail(function() {
+        console.log("Failed");
+    })
 }
