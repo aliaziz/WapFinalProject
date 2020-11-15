@@ -1,5 +1,5 @@
-$(document).ready(function() {
-    $('#btnSubmit').click(function(event) {
+$(document).ready(function () {
+    $('#btnSubmit').click(function (event) {
         event.preventDefault();
         makePost();
     })
@@ -20,10 +20,10 @@ function makePost() {
         processData: false,
         contentType: false,
         cache: false,
-        success: function(data) {
-            console.log("the data "+data);
+        success: function (data) {
+            console.log("the data " + data);
         },
-        error: function() {
+        error: function () {
             console.log("failed.");
         }
     });
@@ -35,9 +35,9 @@ function saveComment(postId) {
     $.post('commentServlet', {
         postId: postId,
         comment: comment
-    }).done(function(data) {
-        console.log("the data "+data);
-    }).fail(function() {
+    }).done(function (data) {
+        console.log("the data " + data);
+    }).fail(function () {
         console.log("failed.");
     });
 }
@@ -45,21 +45,21 @@ function saveComment(postId) {
 function getComments(postId) {
     $.get('commentServlet', {
         postId: postId
-    }).done(function(data) {
+    }).done(function (data) {
         for (let i = 0; i < data.length; i++) {
-            console.log(data[i].comment +" "+data[i].fullName);
+            console.log(data[i].comment + " " + data[i].fullName);
         }
-    }).fail(function() {
+    }).fail(function () {
         console.log("Failed to get comments");
     });
 }
 
 function getPost() {
-    $.get('postServlet').done(function(data) {
+    $.get('postServlet').done(function (data) {
         for (let i = 0; i < data.length; i++) {
             console.log(data[i]);
         }
-    }).fail(function() {
+    }).fail(function () {
         console.log("Failed to get comments");
     });
 }
@@ -73,8 +73,8 @@ function updateProfile() {
         'state': '',
         'city': '',
         'street': '',
-        'zipCode':''
-    }).done(function(data) {
+        'zipCode': ''
+    }).done(function (data) {
         if (data === 'success') {
             console.log("Show success");
         } else {
@@ -86,9 +86,9 @@ function updateProfile() {
 function deactivateUser() {
     $.post('statusServlet', {
         activate: false
-    }).done(function(data) {
-        console.log("Deactivated "+data);
-    }).fail(function() {
+    }).done(function (data) {
+        console.log("Deactivated " + data);
+    }).fail(function () {
         console.log("failed");
     });
 }
@@ -96,9 +96,9 @@ function deactivateUser() {
 function activateUser() {
     $.post('statusServlet', {
         activate: true
-    }).done(function(data) {
+    }).done(function (data) {
         console.log(data);
-    }).fail(function() {
+    }).fail(function () {
         console.log("failed");
     });
 }
@@ -108,11 +108,11 @@ function searchPost() {
 
     $.get('postServlet', {
         query: query
-    }).done(function(data) {
+    }).done(function (data) {
         for (let i = 0; i < data.length; i++) {
             console.log(data[i]);
         }
-    }).fail(function() {
+    }).fail(function () {
         console.log("Ekintu kiganye.")
     })
 }
@@ -122,11 +122,11 @@ function searchUser() {
 
     $.get('searchUserServlet', {
         query: query
-    }).done(function(data) {
+    }).done(function (data) {
         for (let i = 0; i < data.length; i++) {
             console.log(data[i]);
         }
-    }).fail(function() {
+    }).fail(function () {
         console.log("Ekintu kiganye.")
     })
 }
@@ -135,25 +135,39 @@ function deleteComment(commentId, postId) {
     $.delete('commentServlet', {
         commentId: commentId,
         postId: postId
-    }).done(function(data) {})
-        .fail(function() {});
+    }).done(function (data) {
+    })
+        .fail(function () {
+        });
 }
 
 function deletePost(postId) {
     $.delete('postServlet', {
         postId: postId
-    }).done(function(data) {})
-        .fail(function() {});
+    }).done(function (data) {
+    })
+        .fail(function () {
+        });
 }
 
 function likePost(postId) {
-    $.ajax('postServlet', {
-        type: 'PUT',
-        postId: 1,
-        query: 'like'
-    }).done(function(data) {
+    $.get('likeServlet', {
+        'should_like': true,
+        'postId': '1'
+    }).done(function (data) {
         console.log(data);
-    }).fail(function() {
+    }).fail(function () {
+        console.log("Failed");
+    })
+}
+
+function unlikePost(postId) {
+    $.get('likeServlet', {
+        'should_like': false,
+        'postId': '1'
+    }).done(function (data) {
+        console.log(data);
+    }).fail(function () {
         console.log("Failed");
     })
 }

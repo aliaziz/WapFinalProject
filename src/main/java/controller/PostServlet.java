@@ -71,19 +71,6 @@ public class PostServlet extends BaseServlet {
         }
     }
 
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int postId = Integer.parseInt(req.getParameter("postId"));
-        String query = req.getParameter("query");
-        int userId = getSessionUserId(req);
-        PostDao postDao = new PostDao();
-
-        if (query.equals("likes")) {
-            int likesCount = postDao.likeOrUnlikePost(true, postId, userId);
-            resp.getWriter().write(likesCount);
-        }
-    }
-
     private String saveImage(Part part, HttpServletRequest request) throws IOException {
         String storagePath = request.getServletContext().getAttribute(Constants.POST_FILES_DIR)+"/itravelImages/";
         File f = new File(storagePath);

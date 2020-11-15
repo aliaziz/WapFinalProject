@@ -10,4 +10,5 @@ public class ServletUrl {
     public static final String COMMENT_SERVLET = "/commentServlet";
     public static final String STATUS_SERVLET = "/statusServlet";
     public static final String SEARCH_USER_SERVLET = "/searchUserServlet";
+    public static final String LIKE_SERVLET = "/likeServlet";
 }
