@@ -22,16 +22,12 @@ public class PostServlet extends BaseServlet {
         PostDao postDao = new PostDao();
         int userId = getSessionUserId(req);
 
-        if (userId > 0) {
-            Gson gson = new Gson();
-            List<Post> postList = postDao.getPosts(userId);
-            String jsonString = gson.toJson(postList);
-            resp.setContentType("application/json");
-            resp.getWriter().write(jsonString);
+        String query = req.getParameter("query");
+        if (query != null) {
+            getSearchedPosts(postDao, resp, query);
         } else {
-            //Remove after uncommenting the auth-filter
+            getPostsFromFollowed(resp, postDao, userId);
         }
-
     }
 
     @Override
@@ -50,6 +46,26 @@ public class PostServlet extends BaseServlet {
             resp.getWriter().write("Success");
         } else {
             resp.sendError(406, "Failed to post");
+        }
+    }
+
+    private void getSearchedPosts(PostDao postDao, HttpServletResponse resp, String query) throws IOException {
+        Gson gson = new Gson();
+        List<Post> postList = postDao.searchPost(query);
+        String jsonString = gson.toJson(postList);
+        resp.setContentType("application/json");
+        resp.getWriter().write(jsonString);
+    }
+
+    private void getPostsFromFollowed(HttpServletResponse resp, PostDao postDao, int userId) throws IOException {
+        if (userId > 0) {
+            Gson gson = new Gson();
+            List<Post> postList = postDao.getPosts(userId);
+            String jsonString = gson.toJson(postList);
+            resp.setContentType("application/json");
+            resp.getWriter().write(jsonString);
+        } else {
+            //Remove after uncommenting the auth-filter
         }
     }
 }

@@ -7,6 +7,8 @@ import model.UserStatus;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDataAccessObject extends BaseDao {
 
@@ -44,19 +46,7 @@ public class UserDataAccessObject extends BaseDao {
             ResultSet set = statement.executeQuery();
 
             while (set.next()) {
-                user = new User(
-                        set.getString("email"),
-                        set.getString("user_name"),
-                        set.getString("password"),
-                        set.getString("state"),
-                        set.getString("full_name"),
-                        set.getString("street"),
-                        set.getString("city"),
-                        set.getString("gender"),
-                        UserStatus.valueOf(set.getString("status")),
-                        set.getInt("zipcode"),
-                        set.getInt("user_role_id")
-                );
+                user = buildUser(set);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -130,5 +120,37 @@ public class UserDataAccessObject extends BaseDao {
             e.printStackTrace();
         }
         return updated;
+    }
+
+    public List<User> searchUser(String user) {
+        List<User> userList = new ArrayList<>();
+        String sql = "SELECT * FROM user WHERE full_name LIKE '%" + user + "%'";
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+               userList.add(buildUser(set));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userList;
+    }
+
+    private User buildUser(ResultSet set) throws SQLException {
+        User u = new User(
+                set.getString("email"),
+                set.getString("user_name"),
+                set.getString("password"),
+                set.getString("state"),
+                set.getString("full_name"),
+                set.getString("street"),
+                set.getString("city"),
+                set.getString("gender"),
+                UserStatus.valueOf(set.getString("status")),
+                set.getInt("zipcode"),
+                set.getInt("user_role_id")
+        );
+        return u;
     }
 }

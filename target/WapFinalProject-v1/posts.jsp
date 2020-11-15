@@ -21,7 +21,8 @@
         <textarea name="comment" id="comment">Comment</textarea>
         <button name="postComment" onclick="saveComment(${post.postId})">Make Comment</button>
         <br>
-        <button onclick="getComments(${post.postId})">Fetch comments</button>
+
+
     </c:forEach>
 </ul>
 </body>

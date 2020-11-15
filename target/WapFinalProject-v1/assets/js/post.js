@@ -30,6 +30,7 @@ function getComments(postId) {
         postId: postId
     }).done(function(data) {
         for (let i = 0; i < data.length; i++) {
+            $('ul.comments').append('<li id='+data[i].commentId+'>'+data[i].comment+'</li>')
             console.log(data[i].comment +" "+data[i].fullName);
         }
     }).fail(function() {
@@ -40,6 +41,7 @@ function getComments(postId) {
 function getPost() {
     $.get('postServlet').done(function(data) {
         for (let i = 0; i < data.length; i++) {
+            $('ul.post').append('<li>'+data[i].description+'</li>')
             console.log(data[i]);
         }
     }).fail(function() {
@@ -84,4 +86,36 @@ function activateUser() {
     }).fail(function() {
         console.log("failed");
     });
+}
+
+function searchPost() {
+    let query = $('#postSearch').val();
+
+    $.get('postServlet', {
+        query: query
+    }).done(function(data) {
+        for (let i = 0; i < data.length; i++) {
+            console.log(data[i]);
+        }
+    }).fail(function() {
+        console.log("Ekintu kiganye.")
+    })
+}
+
+function searchUser() {
+    let query = $('#userSearch').val();
+
+    $.get('searchUserServlet', {
+        query: query
+    }).done(function(data) {
+        for (let i = 0; i < data.length; i++) {
+            console.log(data[i]);
+        }
+    }).fail(function() {
+        console.log("Ekintu kiganye.")
+    })
+}
+
+function deleteComment(commentId, postId) {
+
 }

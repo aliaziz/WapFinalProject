@@ -65,6 +65,33 @@ public class PostDao extends BaseDao {
     }
 
     public List<Post> searchPost(String query) {
-
+        List<Post> postList = new ArrayList<>();
+        try {
+            String sql = "SELECT u.full_name," +
+                    " p.post_id," +
+                    " p.post_image_url," +
+                    " p.post_desc, " +
+                    " p.post_user_id, " +
+                    " p.likes_count FROM post_tbl p, user u" +
+                    " where p.post_user_id = u.user_id " +
+                    "and post_desc LIKE '%"+query+"%'" +
+                    " ORDER BY post_date";
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                Post post = new Post(
+                        set.getString("post_image_url"),
+                        set.getString("post_desc"),
+                        set.getInt("likes_count"),
+                        set.getInt("post_user_id")
+                );
+                post.setPostId(set.getInt("post_id"));
+                post.setPosterFullName(set.getString("full_name"));
+                postList.add(post);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return postList;
     }
 }

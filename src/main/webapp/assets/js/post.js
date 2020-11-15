@@ -85,3 +85,50 @@ function activateUser() {
         console.log("failed");
     });
 }
+
+function searchPost() {
+    let query = $('#postSearch').val();
+
+    $.get('postServlet', {
+        query: query
+    }).done(function(data) {
+        for (let i = 0; i < data.length; i++) {
+            console.log(data[i]);
+        }
+    }).fail(function() {
+        console.log("Ekintu kiganye.")
+    })
+}
+
+function searchUser() {
+    let query = $('#userSearch').val();
+
+    $.get('searchUserServlet', {
+        query: query
+    }).done(function(data) {
+        for (let i = 0; i < data.length; i++) {
+            console.log(data[i]);
+        }
+    }).fail(function() {
+        console.log("Ekintu kiganye.")
+    })
+}
+
+function deleteComment(commentId, postId) {
+    $.delete('commentServlet', {
+        commentId: commentId,
+        postId: postId
+    }).done(function(data) {})
+        .fail(function() {});
+}
+
+function deletePost(postId) {
+    $.delete('postServlet', {
+        postId: postId
+    }).done(function(data) {})
+        .fail(function() {});
+}
+
+function likePost(postId) {
+
+}
