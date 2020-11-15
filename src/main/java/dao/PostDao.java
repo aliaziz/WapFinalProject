@@ -20,6 +20,8 @@ public class PostDao extends BaseDao {
                     " p.post_id," +
                     " p.post_image_url," +
                     " p.post_desc," +
+                    " p.post_lat," +
+                    " p.post_lon," +
                     " p.likes_count FROM post_tbl p, user u" +
                     " where p.post_user_id = u.user_id" +
                     " and post_user_id in " +
@@ -32,8 +34,9 @@ public class PostDao extends BaseDao {
                         set.getString("post_image_url"),
                         set.getString("post_desc"),
                         set.getInt("likes_count"),
-                        userId
-                );
+                        userId,
+                        set.getDouble("post_lat"),
+                        set.getDouble("post_lon"));
                 post.setPostId(set.getInt("post_id"));
                 post.setPosterFullName(set.getString("full_name"));
                 postList.add(post);
@@ -47,7 +50,10 @@ public class PostDao extends BaseDao {
 
     public boolean savePost(Post post) {
         boolean isSaved = false;
-        String sql = "INSERT into post_tbl (post_image_url, post_desc, likes_count, post_date, post_user_id) VALUES(?, ?, ?, ?, ?)";
+        String sql = "INSERT into post_tbl " +
+                "(post_image_url, post_desc, " +
+                "likes_count, post_date, " +
+                "post_user_id, post_lat, post_lon) VALUES(?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement statement = getConnection().prepareStatement(sql);
             statement.setString(1, post.getPostImageUrl());
@@ -55,6 +61,8 @@ public class PostDao extends BaseDao {
             statement.setInt(3, post.getLikes());
             statement.setDate(4, Date.valueOf(LocalDate.now()));
             statement.setInt(5, post.getUserId());
+            statement.setDouble(6, post.getPostLat());
+            statement.setDouble(7, post.getPostLong());
 
             isSaved = statement.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -71,7 +79,9 @@ public class PostDao extends BaseDao {
                     " p.post_id," +
                     " p.post_image_url," +
                     " p.post_desc, " +
-                    " p.post_user_id, " +
+                    " p.post_user_id," +
+                    " p.post_lat," +
+                    " p.post_lon," +
                     " p.likes_count FROM post_tbl p, user u" +
                     " where p.post_user_id = u.user_id " +
                     "and post_desc LIKE '%"+query+"%'" +
@@ -83,7 +93,9 @@ public class PostDao extends BaseDao {
                         set.getString("post_image_url"),
                         set.getString("post_desc"),
                         set.getInt("likes_count"),
-                        set.getInt("post_user_id")
+                        set.getInt("post_user_id"),
+                        set.getDouble("post_lat"),
+                        set.getDouble("post_lon")
                 );
                 post.setPostId(set.getInt("post_id"));
                 post.setPosterFullName(set.getString("full_name"));
@@ -93,5 +105,17 @@ public class PostDao extends BaseDao {
             e.printStackTrace();
         }
         return postList;
+    }
+
+    public boolean deletePost(int postId) {
+        boolean deleted = false;
+        try {
+            String sql = "DELETE from post_tbl WHERE post_id='"+postId+"'";
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            deleted = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return deleted;
     }
 }

@@ -4,15 +4,19 @@ public class Post {
     String postImageUrl;
     String description;
     String posterFullName;
+    double postLat;
+    double postLong;
     int likes;
     int postId;
     int userId;
 
-    public Post(String postImageUrl, String description, int likes, int userId) {
+    public Post(String postImageUrl, String description, int likes, int userId, double postLat, double postLong) {
         this.postImageUrl = postImageUrl;
         this.description = description;
         this.likes = likes;
         this.userId = userId;
+        this.postLat = postLat;
+        this.postLong = postLong;
     }
 
     public String getPosterFullName() {
@@ -45,5 +49,13 @@ public class Post {
 
     public int getLikes() {
         return likes;
+    }
+
+    public double getPostLat() {
+        return postLat;
+    }
+
+    public double getPostLong() {
+        return postLong;
     }
 }

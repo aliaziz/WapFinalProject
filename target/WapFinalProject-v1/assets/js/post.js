@@ -1,14 +1,34 @@
+$(document).ready(function() {
+    $('#btnSubmit').click(function(event) {
+        event.preventDefault();
+        makePost();
+    })
+})
+
 function makePost() {
     let post = $('#post').val();
+    let formId = $('#postUploadForm')[0];
+    let formData = new FormData(formId);
+    formData.append("postLat", '43.0');
+    formData.append("postLon", '45.0');
+    formData.append("likes", "0");
 
-    $.post('postServlet', {
-        postImage: 'url to image',
-        postDescription: post,
-        likes: 0
-    }).done(function(data) {
-        console.log("the data "+data);
-    }).fail(function() {
-        console.log("failed.");
+    $.ajax({
+        type: "POST",
+        enctype: "multipart/form-data",
+        url: 'postServlet',
+        data: formData,
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function(data) {
+            console.log("the data "+data);
+
+        },
+        error: function() {
+            console.log("failed.");
+
+        }
     });
 }
 
@@ -30,7 +50,6 @@ function getComments(postId) {
         postId: postId
     }).done(function(data) {
         for (let i = 0; i < data.length; i++) {
-            $('ul.comments').append('<li id='+data[i].commentId+'>'+data[i].comment+'</li>')
             console.log(data[i].comment +" "+data[i].fullName);
         }
     }).fail(function() {
@@ -41,7 +60,6 @@ function getComments(postId) {
 function getPost() {
     $.get('postServlet').done(function(data) {
         for (let i = 0; i < data.length; i++) {
-            $('ul.post').append('<li>'+data[i].description+'</li>')
             console.log(data[i]);
         }
     }).fail(function() {
@@ -117,5 +135,20 @@ function searchUser() {
 }
 
 function deleteComment(commentId, postId) {
+    $.delete('commentServlet', {
+        commentId: commentId,
+        postId: postId
+    }).done(function(data) {})
+        .fail(function() {});
+}
+
+function deletePost(postId) {
+    $.delete('postServlet', {
+        postId: postId
+    }).done(function(data) {})
+        .fail(function() {});
+}
+
+function likePost(postId) {
 
 }

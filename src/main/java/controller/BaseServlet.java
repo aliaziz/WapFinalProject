@@ -1,5 +1,6 @@
 package controller;
 
+import com.google.gson.Gson;
 import dao.UserDataAccessObject;
 import utils.Constants;
 import utils.DomainUrl;
@@ -12,6 +13,7 @@ import java.io.IOException;
 
 public class BaseServlet extends HttpServlet {
 
+    public static Gson gson = new Gson();
     public void setSessionData(String email, int roleId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         UserDataAccessObject userDao = new UserDataAccessObject();
         int userId = userDao.getUserId(email);

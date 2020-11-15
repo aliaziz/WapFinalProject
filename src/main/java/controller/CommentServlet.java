@@ -43,4 +43,21 @@ public class CommentServlet extends BaseServlet {
             resp.sendError(406, "Failed to save comment");
         }
     }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int commentId = Integer.parseInt(req.getParameter("commentId"));
+        int postId = Integer.parseInt(req.getParameter("postId"));
+        CommentDao commentDao = new CommentDao();
+
+        boolean deleted = commentDao.deleteComment(commentId, postId);
+        if (deleted) {
+            List<Comment> commentList = commentDao.getComments(postId);
+            String jsonString = BaseServlet.gson.toJson(commentList);
+            resp.setContentType("application/json");
+            resp.getWriter().write(jsonString);
+        } else {
+            resp.sendError(406);
+        }
+    }
 }

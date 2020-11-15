@@ -55,4 +55,19 @@ public class CommentDao extends BaseDao {
         } catch (SQLException e) {e.printStackTrace();}
         return saved;
     }
+
+    public boolean deleteComment(int commentId, int postId) {
+        boolean deleted = false;
+
+        try {
+            String sql = "DELETE from comment_tbl WHERE commentId='"+commentId+"'" +
+                    "AND comment_post_id='"+postId+"'";
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            deleted = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return deleted;
+    }
 }

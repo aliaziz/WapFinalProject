@@ -12,8 +12,11 @@
     <a href="logoutServlet">Logout</a>
     <a href="profileServlet">Profile</a>
     <a href="postServlet">Post</a>
-    <textarea name="post" id="post">Post</textarea>
-    <button name="postPost" onclick="makePost()">Make Post</button><br>
+    <form method="post" enctype="multipart/form-data" id="postUploadForm">
+        <textarea name="postDescription" id="post">Post</textarea>
+        <input type="file" name="postImage" id="postImage"><br>
+        <input type="submit" value="Submit" id="btnSubmit">
+    </form>
     <button onclick="getPost()">Get post</button><br>
     <button onclick="getComments(6)">Get comment</button><br>
     <br>
