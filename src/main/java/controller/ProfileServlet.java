@@ -25,7 +25,7 @@ public class ProfileServlet extends BaseServlet {
         //Redirect to login when no attribute
         Profile profile = user.getProfile();
         session.setAttribute("profile", profile);
-        resp.sendRedirect("profile.jsp");
+        resp.sendRedirect("user/profile.jsp");
     }
 
     @Override
@@ -44,6 +44,7 @@ public class ProfileServlet extends BaseServlet {
         UserDataAccessObject userDao = new UserDataAccessObject();
         boolean isUpdated = userDao.updateProfile(profile);
 
+        resp.setContentType("text/plain");
         if (isUpdated) {
             resp.getWriter().write("success");
         } else {

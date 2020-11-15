@@ -11,6 +11,9 @@ Coded by Creative Tim
 =========================================================
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,6 +32,8 @@ The above copyright notice and this permission notice shall be included in all c
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="../assets/css/material-kit.css?v=2.0.7" rel="stylesheet"/>
+    <script src="../assets/js/core/jquery.min.js"></script>
+    <script src="../assets/js/profile.js"></script>
 </head>
 
 <body class="profile-page sidebar-collapse">
@@ -88,7 +93,7 @@ The above copyright notice and this permission notice shall be included in all c
                         <a class="dropdown-item" href="#">Profile</a>
                         <a class="dropdown-item" href="#">Settings</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Log out</a>
+                        <a class="dropdown-item" href="../logoutServlet">Log out</a>
                     </div>
                 </li>
             </ul>
@@ -121,7 +126,7 @@ The above copyright notice and this permission notice shall be included in all c
                                             </a>
                                         </li>
                                         <li class="nav-item active">
-                                            <a class="nav-link" href="profile.html">
+                                            <a class="nav-link" href="profile.jsp">
                                                 <i class="material-icons">face</i>
                                                 <p>Profile</p>
                                             </a>
@@ -153,40 +158,40 @@ The above copyright notice and this permission notice shall be included in all c
                                     <p class="card-category">Complete your profile</p>
                                 </div>
                                 <div class="card-body">
-                                    <form>
+                                    <form method="post" id="profileForm">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="username" class="bmd-label-floating">Username</label>
-                                                    <input id="username" type="text" class="form-control">
+                                                    <input id="username" name="userName" disabled type="text" class="form-control" value="${sessionScope.profile.userName}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="email" class="bmd-label-floating">Email address</label>
-                                                    <input id="email" type="email" class="form-control">
+                                                    <input id="email" name="email" disabled type="email" class="form-control" value="${sessionScope.profile.email}">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="firstname" class="bmd-label-floating">Fist Name</label>
-                                                    <input id="firstname" type="text" class="form-control">
+                                                    <label for="fullname" class="bmd-label-floating">Full Name</label>
+                                                    <input id="fullname" name="fullname" type="text" class="form-control" value="${sessionScope.profile.fullName}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="bmd-label-floating">Last Name</label>
-                                                    <input type="text" class="form-control">
+                                                    <label class="bmd-label-floating">State</label>
+                                                    <input type="text" name="state" class="form-control" id="state" value="${sessionScope.profile.state}">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="bmd-label-floating">Adress</label>
-                                                    <input type="text" class="form-control">
+                                                    <label class="bmd-label-floating">Street</label>
+                                                    <input type="text" id="street" name="street" class="form-control" value="${sessionScope.profile.street}">
                                                 </div>
                                             </div>
                                         </div>
@@ -194,19 +199,19 @@ The above copyright notice and this permission notice shall be included in all c
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="bmd-label-floating">City</label>
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" name="city" id="city" class="form-control" value="${sessionScope.profile.city}">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="bmd-label-floating">Country</label>
-                                                    <input type="text" class="form-control">
+                                                    <label class="bmd-label-floating">Gender</label>
+                                                    <input type="text" name="gender" id="gender" class="form-control" value="${sessionScope.profile.gender}">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="bmd-label-floating">Postal Code</label>
-                                                    <input type="text" class="form-control">
+                                                    <label class="bmd-label-floating">Zip Code</label>
+                                                    <input type="text" name="zipcode" id="zipcode" class="form-control" value="${sessionScope.profile.zipCode}">
                                                 </div>
                                             </div>
                                         </div>
@@ -231,7 +236,7 @@ The above copyright notice and this permission notice shall be included in all c
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
+                                        <input type="submit" id="updateProfileBtn" class="btn btn-primary pull-right" value="Update Profile"/>
                                         <div class="clearfix"></div>
                                     </form>
                                 </div>
