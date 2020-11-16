@@ -12,4 +12,5 @@ public class ServletUrl {
     public static final String SEARCH_USER_SERVLET = "/searchUserServlet";
     public static final String LIKE_SERVLET = "/likeServlet";
     public static final String DISABLED_USER_SERVLET = "/disabledUserServlet";
+    public static final String CENSORED_WORD_SERVLET = "/censoredWordServlet";
 }

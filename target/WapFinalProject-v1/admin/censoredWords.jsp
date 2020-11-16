@@ -26,6 +26,7 @@ The above copyright notice and this permission notice shall be included in all c
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="../assets/css/material-dashboard.css" rel="stylesheet" />
+    <script src="../assets/js/censored.js"></script>
 </head>
 
 <body class="">
@@ -43,64 +44,37 @@ The above copyright notice and this permission notice shall be included in all c
                         <div class="card">
                             <div class="card-header card-header-primary">
                                 <h4 class="card-title">Censored Words</h4>
+                                <button class="btn btn-light" style="float: right" onclick="add()">Add new word</button>
                                 <p class="card-category"></p>
                             </div>
                             <div class="card-body table-responsive">
                                 <table class="table table-hover">
                                     <thead class="text-warning">
                                     <th>Word</th>
-                                    <th>Status</th>
-                                    <th>Uncensor</th>
+                                    <th>Edit</th>
+                                    <th>Remove</th>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>
-                                            <b>contract</b>
-                                        </td>
-                                        <td><span class="badge badge-pill badge-danger">Censored</span></td>
-                                        <td>
-                                            <button type="button" rel="tooltip" title="Remove"
-                                                    class="btn btn-danger btn-link btn-sm">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>contract</b>
-                                        </td>
-                                        <td><span class="badge badge-pill badge-danger">Censored</span></td>
-                                        <td>
-                                            <button type="button" rel="tooltip" title="Remove"
-                                                    class="btn btn-danger btn-link btn-sm">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>contract</b>
-                                        </td>
-                                        <td><span class="badge badge-pill badge-danger">Censored</span></td>
-                                        <td>
-                                            <button type="button" rel="tooltip" title="Remove"
-                                                    class="btn btn-danger btn-link btn-sm">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>contract</b>
-                                        </td>
-                                        <td><span class="badge badge-pill badge-danger">Censored</span></td>
-                                        <td>
-                                            <button type="button" rel="tooltip" title="Remove"
-                                                    class="btn btn-danger btn-link btn-sm">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
+
+                                    <c:forEach var="word" items="${sessionScope.censoredWords}">
+                                        <tr>
+                                            <td>
+                                                <b>${word}</b>
+                                            </td>
+                                            <td>
+                                                <button type="button" onclick="edit('${word}')" rel="tooltip" title="Edit"
+                                                        class="btn btn-warning btn-link btn-sm">
+                                                    <i class="material-icons">Edit</i>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button type="button" onclick="remove('${word}')" rel="tooltip" title="Remove"
+                                                        class="btn btn-danger btn-link btn-sm">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
