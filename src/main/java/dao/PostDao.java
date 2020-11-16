@@ -24,6 +24,7 @@ public class PostDao extends BaseDao {
                     " p.post_lon," +
                     " p.likes_count FROM post_tbl p, user u" +
                     " where p.post_user_id = u.user_id" +
+                    " and p.post_health = 1" +
                     " and post_user_id in " +
                     "(select person_i_follow_id from my_following_tbl where my_id = '" + userId + "')" +
                     " ORDER BY post_date";
@@ -53,7 +54,7 @@ public class PostDao extends BaseDao {
         String sql = "INSERT into post_tbl " +
                 "(post_image_url, post_desc, " +
                 "likes_count, post_date, " +
-                "post_user_id, post_lat, post_lon) VALUES(?, ?, ?, ?, ?, ?, ?)";
+                "post_user_id, post_lat, post_lon, post_health) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement statement = getConnection().prepareStatement(sql);
             statement.setString(1, post.getPostImageUrl());
@@ -63,6 +64,7 @@ public class PostDao extends BaseDao {
             statement.setInt(5, post.getUserId());
             statement.setDouble(6, post.getPostLat());
             statement.setDouble(7, post.getPostLong());
+            statement.setInt(8, post.getPostHealth());
 
             isSaved = statement.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -84,7 +86,8 @@ public class PostDao extends BaseDao {
                     " p.post_lon," +
                     " p.likes_count FROM post_tbl p, user u" +
                     " where p.post_user_id = u.user_id " +
-                    "and post_desc LIKE '%"+query+"%'" +
+                    " and p.post_health = 1" +
+                    " and post_desc LIKE '%"+query+"%'" +
                     " ORDER BY post_date";
             PreparedStatement statement = getConnection().prepareStatement(sql);
             ResultSet set = statement.executeQuery();

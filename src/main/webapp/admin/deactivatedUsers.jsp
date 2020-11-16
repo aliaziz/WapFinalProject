@@ -9,6 +9,7 @@ Coded by Creative Tim
 
 =========================================================
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,61 +48,29 @@ The above copyright notice and this permission notice shall be included in all c
                             <div class="card-body table-responsive">
                                 <table class="table table-hover">
                                     <thead class="text-warning">
-                                    <th>ID</th>
                                     <th>Name</th>
-                                    <th>Last Seen</th>
+                                    <th>Email</th>
                                     <th>Status</th>
                                     <th>Reactivate</th>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Mary Talemwa</td>
-                                        <td>10/30/2020</td>
-                                        <td> <span class="badge badge-pill badge-warning">Deactivated</span>
-                                        </td>
-                                        <td>
-                                            <button type="button" rel="tooltip" title="activate" class="btn btn-primary btn-link btn-sm">
-                                                <i class="material-icons">touch_app</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Ali Zziwa</td>
-                                        <td>10/30/2020</td>
-                                        <td> <span class="badge badge-pill badge-warning">Deactivated</span>
-                                        </td>
-                                        <td>
-                                            <button type="button" rel="tooltip" title="activate" class="btn btn-primary btn-link btn-sm">
-                                                <i class="material-icons">touch_app</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Charlei Kiwabs</td>
-                                        <td>10/30/2020</td>
-                                        <td> <span class="badge badge-pill badge-warning">Deactivated</span>
-                                        </td>
-                                        <td>
-                                            <button type="button" rel="tooltip" title="activate" class="btn btn-primary btn-link btn-sm">
-                                                <i class="material-icons">touch_app</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Thor Odinson</td>
-                                        <td>10/30/2020</td>
-                                        <td> <span class="badge badge-pill badge-warning">Deactivated</span>
-                                        </td>
-                                        <td>
-                                            <button type="button" rel="tooltip" title="activate" class="btn btn-primary btn-link btn-sm">
-                                                <i class="material-icons">touch_app</i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                        <c:if test="${sessionScope.userList.size() > 0}">
+                                            <c:forEach var="disabledUser" items="${sessionScope.userList}">
+                                                <tr>
+                                                    <td>${disabledUser.fullname}</td>
+                                                    <td>${disabledUser.email}</td>
+                                                    <td>${disabledUser.status}</td>
+                                                    <td>
+                                                        <button onclick="activateUser('${disabledUser.email}')"
+                                                                type="button" rel="tooltip" title="activate"
+                                                                class="btn btn-primary btn-link btn-sm">
+                                                            <i class="material-icons">touch_app</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </c:if>
+
                                     </tbody>
                                 </table>
                             </div>

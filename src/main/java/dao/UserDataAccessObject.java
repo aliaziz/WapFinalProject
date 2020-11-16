@@ -41,7 +41,7 @@ public class UserDataAccessObject extends BaseDao {
     public User getUser(String email) {
         User user = null;
         try {
-            String sql = "SELECT * FROM user where email = '"+ email +"'";
+            String sql = "SELECT * FROM user where email = '" + email + "'";
             PreparedStatement statement = getConnection().prepareStatement(sql);
             ResultSet set = statement.executeQuery();
 
@@ -54,15 +54,31 @@ public class UserDataAccessObject extends BaseDao {
         return user;
     }
 
-    public int getUserId(String email) {
-        int userId = -1;
+    public List<User> getDisabledUsers() {
+        List<User> userList = new ArrayList<>();
         try {
-            String sql = "SELECT user_id FROM user where email = '"+ email +"'";
+            String sql = "SELECT * FROM user where status = '" + UserStatus.INACTIVE.name() + "'";
             PreparedStatement statement = getConnection().prepareStatement(sql);
             ResultSet set = statement.executeQuery();
 
             while (set.next()) {
-               userId = set.getInt("user_id");
+                userList.add(buildUser(set));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userList;
+    }
+
+    public int getUserId(String email) {
+        int userId = -1;
+        try {
+            String sql = "SELECT user_id FROM user where email = '" + email + "'";
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            ResultSet set = statement.executeQuery();
+
+            while (set.next()) {
+                userId = set.getInt("user_id");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,12 +90,12 @@ public class UserDataAccessObject extends BaseDao {
         boolean saved = false;
         try {
             String sql = "UPDATE user SET " +
-                    "gender='"+profile.getGender()+"'," +
-                    "full_name='"+profile.getFullName()+"'," +
-                    "state='"+profile.getState()+"', " +
-                    "city='"+profile.getCity()+"', " +
-                    "street='"+profile.getStreet()+"'," +
-                    "zipcode='"+profile.getZipCode()+"' WHERE email='"+profile.getEmail()+"'";
+                    "gender='" + profile.getGender() + "'," +
+                    "full_name='" + profile.getFullName() + "'," +
+                    "state='" + profile.getState() + "', " +
+                    "city='" + profile.getCity() + "', " +
+                    "street='" + profile.getStreet() + "'," +
+                    "zipcode='" + profile.getZipCode() + "' WHERE email='" + profile.getEmail() + "'";
 
             PreparedStatement statement = getConnection().prepareStatement(sql);
             saved = statement.executeUpdate() > 0;
@@ -106,13 +122,27 @@ public class UserDataAccessObject extends BaseDao {
         return user.getRoleId();
     }
 
-    public boolean changeUserStatus(int userId, boolean status) {
-        String statusString = status ? UserStatus.ACTIVE.name() : UserStatus.INACTIVE.name();
+    public boolean activateUser(String email) {
         boolean updated = false;
 
         try {
             String sql = "UPDATE user SET status " +
-                    "= '" + statusString + "' " +
+                    "= '" + UserStatus.ACTIVE.name() + "' " +
+                    "WHERE email = '" + email + "'";
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            updated = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return updated;
+    }
+
+    public boolean deactivateUser(int userId) {
+        boolean updated = false;
+
+        try {
+            String sql = "UPDATE user SET status " +
+                    "= '" + UserStatus.INACTIVE.name() + "' " +
                     "WHERE user_id = '" + userId + "'";
             PreparedStatement statement = getConnection().prepareStatement(sql);
             updated = statement.executeUpdate() > 0;
@@ -129,7 +159,7 @@ public class UserDataAccessObject extends BaseDao {
             PreparedStatement statement = getConnection().prepareStatement(sql);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
-               userList.add(buildUser(set));
+                userList.add(buildUser(set));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -138,7 +168,7 @@ public class UserDataAccessObject extends BaseDao {
     }
 
     private User buildUser(ResultSet set) throws SQLException {
-        User u = new User(
+        return new User(
                 set.getString("email"),
                 set.getString("user_name"),
                 set.getString("password"),
@@ -151,6 +181,5 @@ public class UserDataAccessObject extends BaseDao {
                 set.getInt("zipcode"),
                 set.getInt("user_role_id")
         );
-        return u;
     }
 }

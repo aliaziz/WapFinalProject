@@ -9,6 +9,7 @@ public class Post {
     int likes;
     int postId;
     int userId;
+    int postHealth;
 
     public Post(String postImageUrl, String description, int likes, int userId, double postLat, double postLong) {
         this.postImageUrl = postImageUrl;
@@ -17,6 +18,14 @@ public class Post {
         this.userId = userId;
         this.postLat = postLat;
         this.postLong = postLong;
+    }
+
+    public int getPostHealth() {
+        return postHealth;
+    }
+
+    public void setPostHealth(int postHealth) {
+        this.postHealth = postHealth;
     }
 
     public String getPosterFullName() {

@@ -49,11 +49,12 @@ function deactivateUser() {
     }
 }
 
-function activateUser() {
+function activateUser(email) {
     $.post('../statusServlet', {
-        activate: true
+        activate: true,
+        email: email,
     }).done(function (data) {
-        console.log(data);
+        window.location.href = 'disabledUserServlet';
     }).fail(function () {
         console.log("failed");
     });

@@ -30,7 +30,7 @@
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="deactivatedUsers.jsp">
+                <a class="nav-link" href="disabledUserServlet">
                     <i class="material-icons">face</i>
                     <p>Deactivated User</p>
                 </a>

@@ -51,7 +51,7 @@ The above copyright notice and this permission notice shall be included in all c
                 <div class="card-footer">
                   <div class="stats">
                     <i class="material-icons text-danger">warning</i>
-                    <a href="#">Goto page</a>
+                    <a href="deactivatedUsers.jsp">Goto page</a>
                   </div>
                 </div>
               </div>

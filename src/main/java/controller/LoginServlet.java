@@ -38,7 +38,7 @@ public class LoginServlet extends BaseServlet {
                 0 : (Integer)session.getAttribute(Constants.LOGIN_ATTEMPT);
         if (loginAttempt >= 3) {
             int userId = userDao.getUserId(email);
-            boolean deactivated = userDao.changeUserStatus(userId, false);
+            boolean deactivated = userDao.deactivateUser(userId);
             if (deactivated) {
                 errorRedirect(resp, ErrorType.ACCOUNT_BLOCKED_ERROR);
             }
