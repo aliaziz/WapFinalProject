@@ -15,4 +15,5 @@ public class ServletUrl {
     public static final String CENSORED_WORD_SERVLET = "/censoredWordServlet";
     public static final String CENSORED_POST_SERVLET = "/censoredPostServlet";
     public static final String DASHBOARD_SERVLET = "/dashboardServlet";
+    public static final String HOME_SERVLET = "/homeServlet";
 }

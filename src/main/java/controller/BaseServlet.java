@@ -23,7 +23,7 @@ public class BaseServlet extends HttpServlet {
         session.setAttribute(Constants.USER_ID, userId);
         session.setAttribute(Constants.IS_LOGGED_IN, true);
 
-        if (roleId == 1) resp.sendRedirect(DomainUrl.HOME_URL);
+        if (roleId == 1) resp.sendRedirect("homeServlet");
         else resp.sendRedirect("dashboardServlet");
     }
 

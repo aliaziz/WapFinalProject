@@ -69,7 +69,7 @@
                         <a class="dropdown-item" href="adminProf.jsp">Profile</a>
 <%--                        <a class="dropdown-item" href="#">Settings</a>--%>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="../logoutServlet">Log out</a>
+                        <a class="dropdown-item" href="logoutServlet">Log out</a>
                     </div>
                 </li>
             </ul>
