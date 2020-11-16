@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = ServletUrl.PROFILE_SERVLET)
+@WebServlet(urlPatterns = {ServletUrl.PROFILE_SERVLET,
+        "/admin" + ServletUrl.PROFILE_SERVLET,
+        "/auth" + ServletUrl.PROFILE_SERVLET})
 public class ProfileServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -22,10 +24,11 @@ public class ProfileServlet extends BaseServlet {
         UserDataAccessObject userDao = new UserDataAccessObject();
         User user = userDao.getUser(email);
 
-        //Redirect to login when no attribute
         Profile profile = user.getProfile();
         session.setAttribute("profile", profile);
-        resp.sendRedirect("user/profile.jsp");
+        if (user.getRoleId() == 1) resp.sendRedirect("user/profile.jsp");
+        else resp.sendRedirect("adminProf.jsp");
+
     }
 
     @Override

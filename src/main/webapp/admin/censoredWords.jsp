@@ -26,7 +26,7 @@ The above copyright notice and this permission notice shall be included in all c
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="../assets/css/material-dashboard.css" rel="stylesheet" />
-    <script src="../assets/js/censored.js"></script>
+    <script src="../assets/js/adminjs/censored.js"></script>
 </head>
 
 <body class="">

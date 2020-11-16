@@ -26,7 +26,7 @@ The above copyright notice and this permission notice shall be included in all c
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="../assets/css/material-dashboard.css" rel="stylesheet" />
-    <script src="../assets/js/censored.js"></script>
+    <script src="../assets/js/adminjs/censored.js"></script>
 </head>
 
 <body class="">
@@ -44,7 +44,7 @@ The above copyright notice and this permission notice shall be included in all c
                         <div class="card">
                             <div class="card-header card-header-primary">
                                 <h4 class="card-title">Censored Words</h4>
-                                <button class="btn btn-light" style="float: right" onclick="add()">Add new word</button>
+                                <button class="btn btn-success" style="float: right" onclick="add()">Add new word</button>
                                 <p class="card-category"></p>
                             </div>
                             <div class="card-body table-responsive">

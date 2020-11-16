@@ -1,9 +1,7 @@
 package controller;
 
-import com.google.gson.Gson;
 import dao.PostDao;
 import model.Post;
-import utils.Constants;
 import utils.ServletUrl;
 
 import javax.imageio.ImageIO;
@@ -21,17 +19,17 @@ import java.util.List;
 @WebServlet(urlPatterns = ServletUrl.POST_SERVLET)
 @MultipartConfig
 public class PostServlet extends BaseServlet {
+    private final PostDao postDao = new PostDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PostDao postDao = new PostDao();
         int userId = getSessionUserId(req);
 
         String query = req.getParameter("query");
         if (query != null) {
-            getSearchedPosts(postDao, resp, query);
+            getSearchedPosts(resp, query);
         } else {
-            getPostsFromFollowed(resp, postDao, userId);
+            getPostsFromFollowed(resp, userId);
         }
     }
 
@@ -46,7 +44,6 @@ public class PostServlet extends BaseServlet {
         int likes = Integer.parseInt(req.getParameter("likes"));
         int userId = getSessionUserId(req);
 
-        PostDao postDao = new PostDao();
         Post post = new Post(imagePath, description, likes, userId, postLat, postLong);
         boolean inserted = postDao.savePost(post);
 
@@ -61,7 +58,6 @@ public class PostServlet extends BaseServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int postId = Integer.parseInt(req.getParameter("postId"));
 
-        PostDao postDao = new PostDao();
         boolean deleted = postDao.deletePost(postId);
 
         if (deleted) {
@@ -72,7 +68,7 @@ public class PostServlet extends BaseServlet {
     }
 
     private String saveImage(Part part, HttpServletRequest request) throws IOException {
-        String storagePath = request.getServletContext().getAttribute(Constants.POST_FILES_DIR)+"/itravelImages/";
+        String storagePath = request.getServletContext().getContextPath() + "/itravelImages";
         File f = new File(storagePath);
         if (!f.exists()) {
             f.mkdir();
@@ -85,17 +81,15 @@ public class PostServlet extends BaseServlet {
         else return null;
     }
 
-    private void getSearchedPosts(PostDao postDao, HttpServletResponse resp, String query) throws IOException {
-        Gson gson = new Gson();
+    private void getSearchedPosts(HttpServletResponse resp, String query) throws IOException {
         List<Post> postList = postDao.searchPost(query);
         String jsonString = gson.toJson(postList);
         resp.setContentType("application/json");
         resp.getWriter().write(jsonString);
     }
 
-    private void getPostsFromFollowed(HttpServletResponse resp, PostDao postDao, int userId) throws IOException {
+    private void getPostsFromFollowed(HttpServletResponse resp, int userId) throws IOException {
         if (userId > 0) {
-            Gson gson = new Gson();
             List<Post> postList = postDao.getPosts(userId);
             String jsonString = gson.toJson(postList);
             resp.setContentType("application/json");

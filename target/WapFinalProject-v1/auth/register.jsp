@@ -30,7 +30,7 @@
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../assets/css/material-bootstrap-wizard.css" rel="stylesheet" />
 
-    <script src="../assets/js/registerUser.js"></script>
+    <script src="../assets/js/userjs/registerUser.js"></script>
 
 </head>
 

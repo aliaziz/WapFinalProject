@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import dao.UserDataAccessObject;
 import utils.Constants;
 import utils.DomainUrl;
+import utils.ServletUrl;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +24,7 @@ public class BaseServlet extends HttpServlet {
         session.setAttribute(Constants.IS_LOGGED_IN, true);
 
         if (roleId == 1) resp.sendRedirect(DomainUrl.HOME_URL);
-        else resp.sendRedirect(DomainUrl.ADMIN_URL);
+        else resp.sendRedirect("dashboardServlet");
     }
 
     public int getSessionUserId(HttpServletRequest request) {

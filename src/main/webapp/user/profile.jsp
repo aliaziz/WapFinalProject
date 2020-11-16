@@ -33,7 +33,7 @@ The above copyright notice and this permission notice shall be included in all c
     <!-- CSS Files -->
     <link href="../assets/css/material-kit.css?v=2.0.7" rel="stylesheet"/>
     <script src="../assets/js/core/jquery.min.js"></script>
-    <script src="../assets/js/profile.js"></script>
+    <script src="../assets/js/profile/profile.js"></script>
 </head>
 
 <body class="profile-page sidebar-collapse">

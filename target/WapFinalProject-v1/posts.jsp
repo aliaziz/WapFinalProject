@@ -11,7 +11,7 @@
 <head>
     <title>Posts</title>
     <script src="assets/js/core/jquery.min.js"></script>
-    <script src="assets/js/post.js"></script>
+    <script src="assets/js/userjs/post.js"></script>
 </head>
 <body>
 <ul>

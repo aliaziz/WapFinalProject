@@ -26,6 +26,7 @@ The above copyright notice and this permission notice shall be included in all c
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="../assets/css/material-dashboard.css" rel="stylesheet" />
+    <script src="../assets/js/admin/censored-posts.js"></script>
 </head>
 
 <body class="">
@@ -43,71 +44,33 @@ The above copyright notice and this permission notice shall be included in all c
                         <div class="card">
                             <div class="card-header card-header-primary">
                                 <h4 class="card-title">Censored Posts</h4>
-                                <p class="card-category">User activity as of 15th November, 2020</p>
+                                <p class="card-category">User activity as today</p>
                             </div>
                             <div class="card-body table-responsive">
                                 <table class="table table-hover">
                                     <thead class="text-warning">
                                     <th>Author</th>
                                     <th>Post</th>
-                                    <th>Status</th>
-                                    <th>Uncensor</th>
+                                    <th>Live post</th>
+                                    <th>Delete Post</th>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>
-                                            <b>Charlei Kiwabs</b>
-                                        </td>
-                                        <td>Sign contract for "What are conference organizers afraid of?"</td>
-                                        <td><span class="badge badge-pill badge-danger">Censored</span></td>
-                                        <td class="td-actions text-right">
-                                            <button type="button" rel="tooltip" title="Remove"
-                                                    class="btn btn-danger btn-link btn-sm">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>Thor Odinson</b>
-                                        </td>
-                                        <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                                        <td><span class="badge badge-pill badge-danger">Censored</span></td>
-                                        <td class="td-actions text-right">
-                                            <button type="button" rel="tooltip" title="Remove"
-                                                    class="btn btn-danger btn-link btn-sm">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>Mary Talemwa</b>
-                                        </td>
-                                        <td>Flooded: One year later, assessing what was lost and what was found
-                                            when a ravaging rain swept through metro Detroit
-                                        </td>
-                                        <td><span class="badge badge-pill badge-danger">Censored</span></td>
-                                        <td class="td-actions text-right">
-                                            <button type="button" rel="tooltip" title="Remove"
-                                                    class="btn btn-danger btn-link btn-sm">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>Lee</b>
-                                        </td>
-                                        <td>Create 4 Invisible User Experiences you Never Knew About</td>
-                                        <td><span class="badge badge-pill badge-danger">Censored</span></td>
-                                        <td class="td-actions text-right">
-                                            <button type="button" rel="tooltip" title="Remove"
-                                                    class="btn btn-danger btn-link btn-sm">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <c:forEach var="post" items="${sessionScope.unhealthyPost}">
+                                        <tr>
+                                            <td>
+                                                <b>${post.posterFullName}</b>
+                                            </td>
+                                            <td>${post.description}</td>
+                                            <td><button onclick="livePost('${post.postId}')" class="badge badge-pill badge-success">Live</button></td>
+                                            <td><button onclick="unlivePost('${post.postId}')" class="badge badge-pill badge-danger">Remove</button></td>
+<%--                                            <td class="td-actions text-right">--%>
+<%--                                                <button type="button" rel="tooltip" title="Remove"--%>
+<%--                                                        class="btn btn-danger btn-link btn-sm">--%>
+<%--                                                    <i class="material-icons">close</i>--%>
+<%--                                                </button>--%>
+<%--                                            </td>--%>
+                                        </tr>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>

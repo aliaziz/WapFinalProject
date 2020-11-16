@@ -3,8 +3,8 @@
 <head>
     <title>Home</title>
     <script src="assets/js/core/jquery.min.js"></script>
-    <script src="assets/js/weather.js"></script>
-    <script src="assets/js/post.js"></script>
+    <script src="assets/js/weather/weather.js"></script>
+    <script src="assets/js/userjs/post.js"></script>
 </head>
 <body>
     Welcome home.

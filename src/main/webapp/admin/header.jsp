@@ -19,13 +19,13 @@
     <div class="sidebar-wrapper">
         <ul class="nav">
             <li class="nav-item  ">
-                <a class="nav-link" href="admin_dashboard.jsp">
+                <a class="nav-link" href="dashboardServlet">
                     <i class="material-icons">dashboard</i>
                     <p>Dashboard</p>
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="adminProf.jsp">
+                <a class="nav-link" href="profileServlet">
                     <i class="material-icons">person</i>
                     <p>Admin Profile</p>
                 </a>
@@ -43,7 +43,7 @@
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="censoredPosts.jsp">
+                <a class="nav-link" href="censoredPostServlet">
                     <i class="material-icons">library_books</i>
                     <p>Censored Posts</p>
                 </a>

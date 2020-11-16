@@ -17,7 +17,7 @@ function updateProfile() {
 
     console.log(email);
 
-    $.post('../profileServlet', {
+    $.post('profileServlet', {
         'email': email,
         'userName': userName,
         'gender': gender,
@@ -39,7 +39,7 @@ function deactivateUser() {
     let boolean = confirm("Are you sure you want to deactivate your account?");
 
     if (boolean) {
-        $.post('../statusServlet', {
+        $.post('statusServlet', {
             activate: false
         }).done(function (data) {
             window.location.href = '../auth/login.jsp';
@@ -50,7 +50,7 @@ function deactivateUser() {
 }
 
 function activateUser(email) {
-    $.post('../statusServlet', {
+    $.post('statusServlet', {
         activate: true,
         email: email,
     }).done(function (data) {

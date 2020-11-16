@@ -45,13 +45,12 @@ The above copyright notice and this permission notice shall be included in all c
                     <i class="material-icons">voice_over_off</i>
                   </div>
                   <p class="card-category">Deactivated Users </p>
-                  <h3 class="card-title">9/50
-                  </h3>
+                  <h3 class="card-title">${sessionScope.disabledUserCount}</h3>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
                     <i class="material-icons text-danger">warning</i>
-                    <a href="deactivatedUsers.jsp">Goto page</a>
+                    <a href="disabledUserServlet">Goto page</a>
                   </div>
                 </div>
               </div>
@@ -63,7 +62,7 @@ The above copyright notice and this permission notice shall be included in all c
                     <i class="material-icons">info_outline</i>
                   </div>
                   <p class="card-category">Censored Posts</p>
-                  <h3 class="card-title">15</h3>
+                  <h3 class="card-title">${sessionScope.censoredPostsCount}</h3>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
@@ -79,7 +78,7 @@ The above copyright notice and this permission notice shall be included in all c
                     <i class="fa fa-twitter"></i>
                   </div>
                   <p class="card-category">Number of Posts</p>
-                  <h3 class="card-title">+245</h3>
+                  <h3 class="card-title">+${sessionScope.allPostsCount}</h3>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
@@ -89,7 +88,7 @@ The above copyright notice and this permission notice shall be included in all c
               </div>
             </div>
           </div>
-          <div class="row">
+          <div hidden class="row">
             <div class="col-lg-12 col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">

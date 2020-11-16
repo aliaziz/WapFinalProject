@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static utils.Constants.AUTH;
-
-@WebServlet(urlPatterns = {ServletUrl.LOGIN_SERVLET, "/"+AUTH+ServletUrl.LOGIN_SERVLET})
+@WebServlet(urlPatterns = {ServletUrl.LOGIN_SERVLET, "/auth"+ServletUrl.LOGIN_SERVLET})
 public class LoginServlet extends BaseServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

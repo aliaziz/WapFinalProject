@@ -15,26 +15,49 @@ public class PostDao extends BaseDao {
     public List<Post> getUnhealthyPost() {
         List<Post> postList = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM post_tbl WHERE post_health = '0'";
-            PreparedStatement statement = getConnection().prepareStatement(sql);
-            ResultSet set = statement.executeQuery();
-            while (set.next()) {
-                Post post = new Post(
-                        set.getString("post_image_url"),
-                        set.getString("post_desc"),
-                        set.getInt("likes_count"),
-                        set.getInt("post_user_id"),
-                        set.getDouble("post_lat"),
-                        set.getDouble("post_lon")
-                );
-                post.setPostId(set.getInt("post_id"));
-                post.setPosterFullName(set.getString("full_name"));
-                post.setPostHealth(set.getInt("post_health"));
-                postList.add(post);
-            }
 
-        } catch (SQLException e) {e.printStackTrace();}
+            String sql = "SELECT u.full_name," +
+                    " p.post_id," +
+                    " p.post_image_url," +
+                    " p.post_desc, " +
+                    " p.post_user_id," +
+                    " p.post_lat," +
+                    " p.post_lon," +
+                    " p.likes_count FROM post_tbl p, user u" +
+                    " where p.post_user_id = u.user_id " +
+                    " and p.post_health = 0";
+
+            getPreparedStatement(postList, sql);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return postList;
+    }
+
+    public boolean liveUnhealthyPost(int postId) {
+        boolean lived = false;
+        try {
+            String sql = "UPDATE post_tbl SET post_health = '1' WHERE post_id = '"+postId+"'";
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            lived = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lived;
+    }
+
+    public boolean deleteUnhealthyPost(int postId) {
+        boolean deleted = false;
+        try {
+            String sql = "DELETE from post_tbl WHERE post_id = '"+postId+"'";
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            deleted = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return deleted;
     }
 
     public List<Post> getPosts(int userId) {
@@ -114,25 +137,29 @@ public class PostDao extends BaseDao {
                     " and p.post_health = 1" +
                     " and post_desc LIKE '%"+query+"%'" +
                     " ORDER BY post_date";
-            PreparedStatement statement = getConnection().prepareStatement(sql);
-            ResultSet set = statement.executeQuery();
-            while (set.next()) {
-                Post post = new Post(
-                        set.getString("post_image_url"),
-                        set.getString("post_desc"),
-                        set.getInt("likes_count"),
-                        set.getInt("post_user_id"),
-                        set.getDouble("post_lat"),
-                        set.getDouble("post_lon")
-                );
-                post.setPostId(set.getInt("post_id"));
-                post.setPosterFullName(set.getString("full_name"));
-                postList.add(post);
-            }
+            getPreparedStatement(postList, sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return postList;
+    }
+
+    private void getPreparedStatement(List<Post> postList, String sql) throws SQLException {
+        PreparedStatement statement = getConnection().prepareStatement(sql);
+        ResultSet set = statement.executeQuery();
+        while (set.next()) {
+            Post post = new Post(
+                    set.getString("post_image_url"),
+                    set.getString("post_desc"),
+                    set.getInt("likes_count"),
+                    set.getInt("post_user_id"),
+                    set.getDouble("post_lat"),
+                    set.getDouble("post_lon")
+            );
+            post.setPostId(set.getInt("post_id"));
+            post.setPosterFullName(set.getString("full_name"));
+            postList.add(post);
+        }
     }
 
     public boolean deletePost(int postId) {
@@ -168,4 +195,30 @@ public class PostDao extends BaseDao {
         }
         return likesCount;
     }
+
+    public int getPostCount() {
+        int posts = 0;
+        String sql = "select count(post_id) from post_tbl";
+        return queryPosts(posts, sql);
+    }
+
+    public int getUnhealthyPostCount() {
+        int posts = 0;
+        String sql = "select count(post_id) from post_tbl WHERE post_health='0'";
+        return queryPosts(posts, sql);
+    }
+
+    private int queryPosts(int posts, String sql) {
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            ResultSet set = statement.executeQuery();
+            while(set.next()) {
+                posts = set.getInt("count(post_id)");
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return posts;
+    }
 }
+
