@@ -36,17 +36,21 @@ function updateProfile() {
 }
 
 function deactivateUser() {
-    $.post('statusServlet', {
-        activate: false
-    }).done(function (data) {
-        console.log("Deactivated " + data);
-    }).fail(function () {
-        console.log("failed");
-    });
+    let boolean = confirm("Are you sure you want to deactivate your account?");
+
+    if (boolean) {
+        $.post('../statusServlet', {
+            activate: false
+        }).done(function (data) {
+            window.location.href = '../auth/login.jsp';
+        }).fail(function () {
+            console.log("failed");
+        });
+    }
 }
 
 function activateUser() {
-    $.post('statusServlet', {
+    $.post('../statusServlet', {
         activate: true
     }).done(function (data) {
         console.log(data);

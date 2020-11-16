@@ -56,12 +56,12 @@ public class CommentDao extends BaseDao {
         return saved;
     }
 
-    public boolean deleteComment(int commentId, int postId) {
+    public boolean deleteComment(int commentId, int userId) {
         boolean deleted = false;
 
         try {
             String sql = "DELETE from comment_tbl WHERE commentId='"+commentId+"'" +
-                    "AND comment_post_id='"+postId+"'";
+                    "AND comment_user_id='"+userId+"'";
             PreparedStatement statement = getConnection().prepareStatement(sql);
             deleted = statement.executeUpdate() > 0;
         } catch (SQLException e) {

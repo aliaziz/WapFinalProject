@@ -48,9 +48,10 @@ public class CommentServlet extends BaseServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int commentId = Integer.parseInt(req.getParameter("commentId"));
         int postId = Integer.parseInt(req.getParameter("postId"));
+        int userId = getSessionUserId(req);
         CommentDao commentDao = new CommentDao();
 
-        boolean deleted = commentDao.deleteComment(commentId, postId);
+        boolean deleted = commentDao.deleteComment(commentId, userId);
         if (deleted) {
             List<Comment> commentList = commentDao.getComments(postId);
             String jsonString = BaseServlet.gson.toJson(commentList);

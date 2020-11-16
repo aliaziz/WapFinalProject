@@ -226,7 +226,7 @@ The above copyright notice and this permission notice shall be included in all c
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-12">
+                                            <div class="col-md-12" hidden>
                                                 <div class="form-group">
                                                     <label>About Me</label>
                                                     <div class="form-group">
@@ -250,12 +250,12 @@ The above copyright notice and this permission notice shall be included in all c
                                     </a>
                                 </div>
                                 <div class="card-body">
-                                    <h6 class="card-category text-gray">Philanthropist</h6>
-                                    <h4 class="card-title">Mary Talemwa</h4>
+                                    <h6 class="card-category text-gray">${sessionScope.profile.email}</h6>
+                                    <h4 class="card-title">${sessionScope.profile.fullName}</h4>
                                     <p class="card-description">
-                                        Don't be scared of the truth because we need to restart the human foundation in truth And Honesty
+                                       Coming soon.
                                     </p>
-                                    <button class="btn btn-round btn-primary" data-toggle="modal" data-target="#myModal">
+                                    <button class="btn btn-round btn-primary" onclick="deactivateUser()">
                                         Deactivate Account
                                     </button>
                                 </div>
@@ -277,8 +277,7 @@ The above copyright notice and this permission notice shall be included in all c
                                     <p>Click deactivate button below to deactivate.</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-round btn-lg btn-danger">DEACTIVATE ACCOUNT</button>
-
+                                    <button type="button" onclick="deactivateUser()" class="btn btn-round btn-lg btn-danger">DEACTIVATE ACCOUNT</button>
                                 </div>
                             </div>
                         </div>
