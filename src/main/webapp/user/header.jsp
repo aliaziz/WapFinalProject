@@ -53,14 +53,6 @@
                 </div>
             </form>
             <ul class="navbar-nav ">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="material-icons">dashboard</i>
-                        <p class="d-lg-none d-md-block">
-                            Stats
-                        </p>
-                    </a>
-                </li>
                 <li class="dropdown nav-item">
                     <a href="#" class="dropdown-toggle nav-link " data-toggle="dropdown">
                         <i class="material-icons ">notifications</i>
@@ -80,8 +72,7 @@
                         <i class="material-icons">person</i>
                     </a>
                     <div class="dropdown-menu dropdown-with-icons">
-                        <a class="dropdown-item" href="#">Profile</a>
-                        <a class="dropdown-item" href="#">Settings</a>
+                        <a class="dropdown-item" href="profileServlet">Profile</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="logoutServlet">Log out</a>
                     </div>

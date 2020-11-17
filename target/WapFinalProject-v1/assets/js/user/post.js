@@ -70,8 +70,6 @@ function makePost() {
         contentType: false,
         cache: false,
         success: function (data) {
-            $('#postDescription')
-                .text("");
 
             $('#alert-section')
                 .css('display', 'block')
@@ -89,6 +87,7 @@ function makePost() {
 }
 
 function getPosts() {
+    console.log("called..")
     $.get('postServlet').done(function (data) {
         for (let i = 0; i < data.length; i++) {
             $('#post-section').append(buildPost(data[i]));
@@ -159,18 +158,19 @@ function unlikePost(postId) {
 }
 
 function buildPost(post) {
-    // return "<div><button onclick='getComments("+post.postId+")'></button></div>"
     return "" +
         "<div class='media-block'> " +
         "<a class='media-left' href='#'><img class='img-circle img-sm' alt='Profile Picture' src='https://bootdey.com/img/Content/avatar/avatar1.png'></a> " +
         " <div class='media-body'> " +
         "<div class='mar-btm'> " +
         "<a href='#' class='btn-link media-heading box-inline'><b> " + post.posterFullName + "</b></a> " +
-        "<p class='text-muted text-sm-left'><i class='material-icons'>stay_current_portrait</i> - Post date here - </p> " +
+        "<p class='text-muted text-sm-left'><i class='material-icons'>stay_current_portrait</i> "+post.postDate+" </p> " +
         "</div> " +
+        "<p><img id='post-image-tag' style='width: 100%; height: 400px;' src="+post.postImageUrl+"></p> " +
         "<p>" + post.description + "</p> " +
         "<div class='pad-ver'> <span class='tag tag-sm' id='" + post.postId + "'><i class='fa fa-heart text-danger'></i> " + post.likes + " Likes</span> " +
         "<button class='btn btn-sm btn-round btn-default' onclick='likePost(" + post.postId + ")'><i class='material-icons'>thumb_up</i></button>  " +
+        "<button class='btn btn-sm btn-round btn-default' onclick='showMap(" + post.postLat + ", "+post.postLong+")'><i class='material-icons'>map</i></button>  " +
         "<button data-toggle='collapse' data-target='#post-" + post.postId + "' class='btn btn-sm btn-round btn-default' onclick='getComments(" + post.postId + ")'>View comments</button> <a class='btn btn-sm btn-round btn-primary' href='#'>Comment</a> " +
         "</div> <hr>" + " " +
         "<div class='collapse' id='post-" + post.postId + "'></div>" +

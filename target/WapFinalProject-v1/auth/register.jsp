@@ -30,7 +30,7 @@
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../assets/css/material-bootstrap-wizard.css" rel="stylesheet" />
 
-    <script src="../assets/js/userjs/registerUser.js"></script>
+    <script src="../assets/js/user/registerUser.js"></script>
 
 </head>
 
@@ -94,8 +94,7 @@
 													</span>
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Your Password</label>
-                                                    <input pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$"
-                                                           title="Password should be at least 6 letters and must include at least one upper case letter, one lower case letter, and one numeric digit."
+                                                    <input onfocusout="matchPassword()"
                                                            name="password" id="password" type="password" class="form-control" required>
                                                 </div>
                                             </div>
@@ -118,7 +117,7 @@
 													</span>
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Confirm Password</label>
-                                                    <input name="confirm" id="confirmPassword" type="password" class="form-control">
+                                                    <input name="confirm" onfocusout="verifyPassword()" id="confirmPassword" type="password" class="form-control" required>
                                                 </div>
                                             </div>
 
@@ -162,7 +161,6 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group label-floating">
-                                                <!--													<label class="control-label">Birth date</label>-->
                                                 <input name="firstname" id="firstname" type="date" class="form-control" required>
                                             </div>
                                             <div class="form-group label-floating">
@@ -241,19 +239,16 @@
                             </div>
                             <div class="wizard-footer">
                                 <div class="pull-right">
-                                    <input type='button' class='btn btn-next btn-fill btn-primary btn-round btn-wd' name='next' value='Next' />
+                                    <input type='button'id="next-btn" class='btn btn-next btn-fill btn-primary btn-round btn-wd' name='next' value='Next' />
                                     <input type='submit' class='btn btn-finish btn-fill btn-primary btn-round btn-wd' name='finish' value='Finish' />
                                 </div>
                                 <div class="pull-left">
+                                    <div id="alert-section" style="display: none" class="alert" role="alert"></div>
                                     <input type='button' class='btn btn-previous btn-fill btn-default btn-round btn-wd' name='previous' value='Previous' />
 
                                     <div class="footer-checkbox">
                                         <div class="col-sm-12">
                                             <div class="checkbox">
-<%--                                                <label>--%>
-<%--                                                    <input type="checkbox" name="optionsCheckboxes">--%>
-<%--                                                </label>--%>
-<%--                                                Subscribe to our newsletter--%>
                                                 <c:if test="${param.error}">
                                                     ${param.errorMessage}
                                                 </c:if>

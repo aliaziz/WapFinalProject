@@ -75,7 +75,7 @@ The above copyright notice and this permission notice shall be included in all c
           <div class="card">
             <div class="card-body">
               <form id="postUploadForm" enctype="multipart/form-data">
-                <textarea class="form-control" id="postDescription" name="postDescription" rows="3" placeholder="What are you thinking?"></textarea>
+                <textarea class="form-control" id="postDescription" name="postDescription" rows="3" placeholder="Where would you like to travel?"></textarea>
                 <div class="mar-top clearfix">
                   <button id="postForm" class="btn btn-round btn-primary pull-right" type="submit"><i
                           class="material-icons">create</i> Share

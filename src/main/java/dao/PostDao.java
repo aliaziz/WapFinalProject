@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,12 +72,25 @@ public class PostDao extends BaseDao {
                     " p.post_desc," +
                     " p.post_lat," +
                     " p.post_lon," +
+                    " p.post_date,"+
                     " p.likes_count FROM post_tbl p, user u" +
                     " where p.post_user_id = u.user_id" +
                     " and p.post_health = 1" +
                     " and post_user_id in " +
-                    "(select person_i_follow_id from my_following_tbl where my_id = '" + userId + "')" +
-                    " ORDER BY post_date";
+                    "(select person_i_follow_id from my_following_tbl where my_id = '" + userId + "')" +"" +
+                    "union " +
+                    "SELECT u.full_name, " +
+                    "p.post_id," +
+                    " p.post_image_url," +
+                    " p.post_desc, " +
+                    "p.post_lat, " +
+                    "p.post_lon, " +
+                    "p.post_date," +
+                    "p.likes_count FROM post_tbl p, user u " +
+                    "where p.post_user_id = u.user_id " +
+                    "and p.post_health = 1 " +
+                    "and post_user_id = '"+userId+"'" +
+                    "ORDER BY post_date DESC";
             PreparedStatement statement = getConnection().prepareStatement(sql);
             ResultSet set = statement.executeQuery();
             while (set.next()) {

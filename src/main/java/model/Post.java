@@ -4,6 +4,7 @@ public class Post {
     String postImageUrl;
     String description;
     String posterFullName;
+    String postDate;
     double postLat;
     double postLong;
     int likes;
@@ -26,6 +27,14 @@ public class Post {
 
     public void setPostHealth(int postHealth) {
         this.postHealth = postHealth;
+    }
+
+    public void setPostDate(String postDate) {
+        this.postDate = postDate;
+    }
+
+    public String getPostDate() {
+        return postDate;
     }
 
     public String getPosterFullName() {

@@ -74,7 +74,8 @@ public class PostServlet extends BaseServlet {
     }
 
     private String saveImage(Part part, HttpServletRequest request) throws IOException {
-        String storagePath = request.getServletContext().getContextPath() + "/itravelImages";
+        String folderPath = "itravelImages/";
+        String storagePath = request.getServletContext().getRealPath("/")+folderPath;
         File f = new File(storagePath);
         if (!f.exists()) {
             f.mkdir();
@@ -82,10 +83,9 @@ public class PostServlet extends BaseServlet {
 
         String imageName = Calendar.getInstance().getTimeInMillis() + ".png";
         File imageFile = new File(f, imageName);
-//        boolean written = ImageIO.write(ImageIO.read(part.getInputStream()), "png", imageFile);
-//        if (written) return imageFile.getAbsolutePath();
-//        else return null;
-        return "";
+        boolean written = ImageIO.write(ImageIO.read(part.getInputStream()), "png", imageFile);
+        if (written) return "/WapFinalProject/"+folderPath+imageName;
+        else return null;
     }
 
     private void getSearchedPosts(HttpServletResponse resp, String query) throws IOException {
@@ -96,13 +96,9 @@ public class PostServlet extends BaseServlet {
     }
 
     private void getPostsFromFollowed(HttpServletResponse resp, int userId) throws IOException {
-        if (userId > 0) {
-            List<Post> postList = postDao.getPosts(userId);
-            String jsonString = gson.toJson(postList);
-            resp.setContentType("application/json");
-            resp.getWriter().write(jsonString);
-        } else {
-            //Remove after uncommenting the auth-filter
-        }
+        List<Post> postList = postDao.getPosts(userId);
+        String jsonString = gson.toJson(postList);
+        resp.setContentType("application/json");
+        resp.getWriter().write(jsonString);
     }
 }
