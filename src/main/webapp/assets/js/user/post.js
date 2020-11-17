@@ -25,16 +25,17 @@ $(document).ready(function () {
 })
 
 function saveComment(postId) {
-    let comment = $('#comment').val();
-
-    $.post('commentServlet', {
-        postId: postId,
-        comment: comment
-    }).done(function (data) {
-        console.log("the data " + data);
-    }).fail(function () {
-        console.log("failed.");
-    });
+    let comment = prompt("Enter comment about the post");
+    if (comment !== '') {
+        $.post('commentServlet', {
+            postId: postId,
+            comment: comment
+        }).done(function (data) {
+            alert("Comment added!");
+        }).fail(function () {
+            alert("Comment not added!");
+        });
+    }
 }
 
 function getComments(postId) {
@@ -53,11 +54,13 @@ function getComments(postId) {
 }
 
 function deleteComment(commentId, postId) {
-    $.delete('commentServlet', {
-        commentId: commentId,
-        postId: postId
+    $.ajax('commentServlet?commentId='+commentId+'&postId='+postId, {
+        type: 'DELETE'
     }).done(function (data) {
+        getComments(postId)
+        alert("Comment deleted!");
     }).fail(function () {
+        alert("You can only delete your own comments!");
     });
 }
 
@@ -212,7 +215,7 @@ function buildPost(post) {
         "<button class='btn btn-sm btn-round btn-default' onclick='showMap(" + post.postLat + ", " + post.postLong + ")'><i class='material-icons'>map</i></button>  " +
         "<button class='btn btn-sm btn-round btn-default' onclick='deletePost(" +post.postId+ ")'><i class='material-icons'>delete</i></button>  " +
         "<button data-toggle='collapse' data-target='#post-" + post.postId + "' class='btn btn-sm btn-round btn-default' onclick='getComments(" + post.postId + ")'>View comments</button> " +
-        "<button class='btn btn-sm btn-round btn-primary' href='#'>Comment</button> " +
+        "<button class='btn btn-sm btn-round btn-primary' onclick='saveComment("+post.postId+")'>Add Comment</button> " +
         "</div> <hr>" + " " +
         "<div class='collapse' id='post-" + post.postId + "'></div>" +
         "</div> " +
@@ -229,6 +232,7 @@ function buildComment(comment) {
         '               <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> Recent </p>' +
         '           </div>' +
         '           <p> ' + comment.comment + ' </p>' +
+        '           <button class="btn btn-sm btn-round btn-default" onclick="deleteComment(' +comment.commentId+ ', '+comment.postId+')"><i class="material-icons">delete</i></button>  ' +
         '           <hr>' +
         '       </div>' +
         '   </div>';

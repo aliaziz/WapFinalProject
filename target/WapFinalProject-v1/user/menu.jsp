@@ -34,7 +34,7 @@
                         <p>Find Friends</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li hidden class="nav-item">
                     <a class="nav-link" href="places.jsp">
                         <i class="material-icons">flight</i>
                         <p>Find Places</p>

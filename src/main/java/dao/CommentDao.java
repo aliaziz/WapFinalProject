@@ -60,7 +60,7 @@ public class CommentDao extends BaseDao {
         boolean deleted = false;
 
         try {
-            String sql = "DELETE from comment_tbl WHERE commentId='"+commentId+"'" +
+            String sql = "DELETE from comment_tbl WHERE comment_id='"+commentId+"'" +
                     "AND comment_user_id='"+userId+"'";
             PreparedStatement statement = getConnection().prepareStatement(sql);
             deleted = statement.executeUpdate() > 0;
