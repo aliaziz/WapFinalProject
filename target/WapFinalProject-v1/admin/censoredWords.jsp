@@ -26,7 +26,7 @@ The above copyright notice and this permission notice shall be included in all c
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="../assets/css/material-dashboard.css" rel="stylesheet" />
-    <script src="../assets/js/adminjs/censored.js"></script>
+    <script src="../assets/js/admin/censored-words.js"></script>
 </head>
 
 <body class="">
@@ -56,7 +56,7 @@ The above copyright notice and this permission notice shall be included in all c
                                     </thead>
                                     <tbody>
 
-                                    <c:forEach var="word" items="${sessionScope.censoredWords}">
+                                    <c:forEach var="word" items="${applicationScope.Censored_words_list}">
                                         <tr>
                                             <td>
                                                 <b>${word}</b>

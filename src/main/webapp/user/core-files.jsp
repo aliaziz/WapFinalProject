@@ -20,5 +20,6 @@
 <!--  Google Maps Plugin    -->
 <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
 <script src="../assets/js/material-kit.js" type="text/javascript"></script>
+<script src="../assets/js/user/post.js"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = ServletUrl.COMMENT_SERVLET)
+@WebServlet(urlPatterns = {ServletUrl.COMMENT_SERVLET, "/user"+ServletUrl.COMMENT_SERVLET})
 public class CommentServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

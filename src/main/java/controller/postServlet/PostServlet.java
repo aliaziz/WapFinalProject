@@ -3,6 +3,7 @@ package controller.postServlet;
 import controller.BaseServlet;
 import dao.PostDao;
 import model.Post;
+import utils.Constants;
 import utils.ServletUrl;
 
 import javax.imageio.ImageIO;
@@ -17,7 +18,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
-@WebServlet(urlPatterns = ServletUrl.POST_SERVLET)
+@WebServlet(urlPatterns = {ServletUrl.POST_SERVLET, "/user"+ServletUrl.POST_SERVLET})
 @MultipartConfig
 public class PostServlet extends BaseServlet {
     private final PostDao postDao = new PostDao();
@@ -37,6 +38,9 @@ public class PostServlet extends BaseServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String description = req.getParameter("postDescription");
+        List<String> censoredWordsList = (List<String>) req.getServletContext().getAttribute(Constants.CENSORED_WORDS_LIST);
+        boolean containsUnhealthy = censoredWordsList.stream().anyMatch(description::contains);
+
         Part image = req.getPart("postImage");
         String imagePath = saveImage(image, req);
         double postLat = Double.parseDouble(req.getParameter("postLat"));
@@ -46,10 +50,11 @@ public class PostServlet extends BaseServlet {
         int userId = getSessionUserId(req);
 
         Post post = new Post(imagePath, description, likes, userId, postLat, postLong);
+        post.setPostHealth(containsUnhealthy ? 0 : 1);
         boolean inserted = postDao.savePost(post);
 
         if (inserted) {
-            resp.getWriter().write("Success");
+            resp.getWriter().write(containsUnhealthy ? "Blocked for review" : "Posted");
         } else {
             resp.sendError(406, "Failed to post");
         }
@@ -77,9 +82,10 @@ public class PostServlet extends BaseServlet {
 
         String imageName = Calendar.getInstance().getTimeInMillis() + ".png";
         File imageFile = new File(f, imageName);
-        boolean written = ImageIO.write(ImageIO.read(part.getInputStream()), "png", imageFile);
-        if (written) return imageFile.getAbsolutePath();
-        else return null;
+//        boolean written = ImageIO.write(ImageIO.read(part.getInputStream()), "png", imageFile);
+//        if (written) return imageFile.getAbsolutePath();
+//        else return null;
+        return "";
     }
 
     private void getSearchedPosts(HttpServletResponse resp, String query) throws IOException {

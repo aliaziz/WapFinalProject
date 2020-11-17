@@ -221,4 +221,3 @@ public class PostDao extends BaseDao {
         return posts;
     }
 }
-

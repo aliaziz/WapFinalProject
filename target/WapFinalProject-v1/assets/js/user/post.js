@@ -1,33 +1,21 @@
+let currentLatitude;
+let currentLongitude;
+
 $(document).ready(function () {
-    $('#btnSubmit').click(function (event) {
+    $('#postForm').click(function (event) {
         event.preventDefault();
         makePost();
     })
-})
 
-function makePost() {
-    let formId = $('#postUploadForm')[0];
-    let formData = new FormData(formId);
-    formData.append("postLat", '43.0');
-    formData.append("postLon", '45.0');
-    formData.append("likes", "0");
-
-    $.ajax({
-        type: "POST",
-        enctype: "multipart/form-data",
-        url: 'postServlet',
-        data: formData,
-        processData: false,
-        contentType: false,
-        cache: false,
-        success: function (data) {
-            console.log("the data " + data);
-        },
-        error: function () {
-            console.log("failed.");
-        }
+    navigator.geolocation.getCurrentPosition(position => {
+        currentLatitude = ""+position.coords.latitude;
+        currentLongitude = ""+position.coords.longitude;
+    }, () => {
+        alert("Your location is not shared. The system shall default to your profile location");
     });
-}
+
+    getPosts();
+})
 
 function saveComment(postId) {
     let comment = $('#comment').val();
@@ -43,24 +31,70 @@ function saveComment(postId) {
 }
 
 function getComments(postId) {
+    let divId = $('#post-' + postId);
+    $(divId).empty();
+
     $.get('commentServlet', {
         postId: postId
     }).done(function (data) {
         for (let i = 0; i < data.length; i++) {
-            console.log(data[i].comment + " " + data[i].fullName);
+            $(divId).append(buildComment(data[i]));
         }
     }).fail(function () {
         console.log("Failed to get comments");
     });
 }
 
-function getPost() {
+function deleteComment(commentId, postId) {
+    $.delete('commentServlet', {
+        commentId: commentId,
+        postId: postId
+    }).done(function (data) {
+    }).fail(function () {
+    });
+}
+
+function makePost() {
+    let formId = $('#postUploadForm')[0];
+    let formData = new FormData(formId);
+    formData.append("postLat", currentLatitude);
+    formData.append("postLon", currentLongitude);
+    formData.append("likes", "0");
+
+    $.ajax({
+        type: "POST",
+        enctype: "multipart/form-data",
+        url: 'postServlet',
+        data: formData,
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function (data) {
+            $('#postDescription')
+                .text("");
+
+            $('#alert-section')
+                .css('display', 'block')
+                .text(data)
+                .addClass(' alert-primary');
+
+            setTimeout(function() {
+                $('#alert-section').css('display', 'none');
+            }, 2000)
+        },
+        error: function () {
+            console.log("failed.");
+        }
+    });
+}
+
+function getPosts() {
     $.get('postServlet').done(function (data) {
         for (let i = 0; i < data.length; i++) {
-            console.log(data[i]);
+            $('#post-section').append(buildPost(data[i]));
         }
     }).fail(function () {
-        console.log("Failed to get comments");
+        console.log("Failed to get posts");
     });
 }
 
@@ -92,16 +126,6 @@ function searchUser() {
     })
 }
 
-function deleteComment(commentId, postId) {
-    $.delete('commentServlet', {
-        commentId: commentId,
-        postId: postId
-    }).done(function (data) {
-    })
-        .fail(function () {
-        });
-}
-
 function deletePost(postId) {
     $.delete('postServlet', {
         postId: postId
@@ -114,9 +138,10 @@ function deletePost(postId) {
 function likePost(postId) {
     $.get('likeServlet', {
         'should_like': true,
-        'postId': '1'
+        'postId': postId
     }).done(function (data) {
-        console.log(data);
+        console.log(data + " Likes " + postId);
+        $('#' + postId).text(data + " Likes");
     }).fail(function () {
         console.log("Failed");
     })
@@ -125,10 +150,45 @@ function likePost(postId) {
 function unlikePost(postId) {
     $.get('likeServlet', {
         'should_like': false,
-        'postId': '1'
+        'postId': postId
     }).done(function (data) {
         console.log(data);
     }).fail(function () {
         console.log("Failed");
     })
+}
+
+function buildPost(post) {
+    // return "<div><button onclick='getComments("+post.postId+")'></button></div>"
+    return "" +
+        "<div class='media-block'> " +
+        "<a class='media-left' href='#'><img class='img-circle img-sm' alt='Profile Picture' src='https://bootdey.com/img/Content/avatar/avatar1.png'></a> " +
+        " <div class='media-body'> " +
+        "<div class='mar-btm'> " +
+        "<a href='#' class='btn-link media-heading box-inline'><b> " + post.posterFullName + "</b></a> " +
+        "<p class='text-muted text-sm-left'><i class='material-icons'>stay_current_portrait</i> - Post date here - </p> " +
+        "</div> " +
+        "<p>" + post.description + "</p> " +
+        "<div class='pad-ver'> <span class='tag tag-sm' id='" + post.postId + "'><i class='fa fa-heart text-danger'></i> " + post.likes + " Likes</span> " +
+        "<button class='btn btn-sm btn-round btn-default' onclick='likePost(" + post.postId + ")'><i class='material-icons'>thumb_up</i></button>  " +
+        "<button data-toggle='collapse' data-target='#post-" + post.postId + "' class='btn btn-sm btn-round btn-default' onclick='getComments(" + post.postId + ")'>View comments</button> <a class='btn btn-sm btn-round btn-primary' href='#'>Comment</a> " +
+        "</div> <hr>" + " " +
+        "<div class='collapse' id='post-" + post.postId + "'></div>" +
+        "</div> " +
+        "</div>";
+}
+
+function buildComment(comment) {
+    return ' <div>' +
+        '   <div class="media-block">' +
+        '      <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="https://bootdey.com/img/Content/avatar/avatar2.png"></a>' +
+        '       <div class="media-body">' +
+        '           <div class="mar-btm">' +
+        '               <a href="#" class="btn-link text-semibold media-heading box-inline">' + comment.fullName + '</a>' +
+        '               <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> Recent </p>' +
+        '           </div>' +
+        '           <p> ' + comment.comment + ' </p>' +
+        '           <hr>' +
+        '       </div>' +
+        '   </div>';
 }

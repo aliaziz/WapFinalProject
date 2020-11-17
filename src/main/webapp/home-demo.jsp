@@ -17,7 +17,7 @@
         <input type="file" name="postImage" id="postImage"><br>
         <input type="submit" value="Submit" id="btnSubmit">
     </form>
-    <button onclick="getPost()">Get post</button><br>
+    <button onclick="getPosts()">Get post</button><br>
     <button onclick="getComments(6)">Get comment</button><br>
     <br>
     <textarea id="userSearch"></textarea>

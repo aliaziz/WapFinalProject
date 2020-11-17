@@ -2,6 +2,7 @@ package controller.adminServlet;
 
 import controller.BaseServlet;
 import dao.CensoredWordDao;
+import utils.Constants;
 import utils.ServletUrl;
 
 import javax.servlet.ServletException;
@@ -17,8 +18,6 @@ public class CensoredWordsServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<String> list = censoredWordDao.getUnhealthyWords();
-        req.getSession().setAttribute("censoredWords", list);
         resp.sendRedirect("censoredWords.jsp");
     }
 
@@ -26,18 +25,26 @@ public class CensoredWordsServlet extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String word = req.getParameter("word");
         boolean added = censoredWordDao.addWord(word);
+        List<String> censoredWordsList = (List<String>) req.getServletContext().getAttribute(Constants.CENSORED_WORDS_LIST);
 
-        if (added) resp.getWriter().write("success");
-        else resp.getWriter().write("failed");
+        if (added) {
+            censoredWordsList.add(word);
+            req.getServletContext().setAttribute(Constants.CENSORED_WORDS_LIST, censoredWordsList);
+            resp.getWriter().write("success");
+        } else resp.getWriter().write("failed");
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String word = req.getParameter("word");
         boolean deleted = censoredWordDao.removeWord(word);
+        List<String> censoredWordsList = (List<String>) req.getServletContext().getAttribute(Constants.CENSORED_WORDS_LIST);
 
-        if (deleted) resp.getWriter().write("success");
-        else resp.getWriter().write("failed");
+        if (deleted) {
+            censoredWordsList.remove(word);
+            req.getServletContext().setAttribute(Constants.CENSORED_WORDS_LIST, censoredWordsList);
+            resp.getWriter().write("success");
+        } else resp.getWriter().write("failed");
     }
 
     @Override
@@ -45,8 +52,13 @@ public class CensoredWordsServlet extends BaseServlet {
         String oldWord = req.getParameter("oldWord");
         String newWord = req.getParameter("newWord");
         boolean updated = censoredWordDao.updateWord(oldWord, newWord);
+        List<String> censoredWordsList = (List<String>) req.getServletContext().getAttribute(Constants.CENSORED_WORDS_LIST);
 
-        if (updated) resp.getWriter().write("success");
-        else resp.getWriter().write("failed");
+        if (updated) {
+            censoredWordsList.remove(oldWord);
+            censoredWordsList.add(newWord);
+            req.getServletContext().setAttribute(Constants.CENSORED_WORDS_LIST, censoredWordsList);
+            resp.getWriter().write("success");
+        } else resp.getWriter().write("failed");
     }
 }
