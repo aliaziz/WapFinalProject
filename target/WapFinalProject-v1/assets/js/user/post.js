@@ -7,9 +7,11 @@ $(document).ready(function () {
         makePost();
     })
 
-    $('#search-post-btn').click(function (event) {
+    $('#search-btn').click(function (event) {
         event.preventDefault();
-        searchPost();
+        let currentUrl = window.location.pathname;
+        if (currentUrl.indexOf("suggestions") >= 0) searchUser();
+        else searchPost();
     })
 
     navigator.geolocation.getCurrentPosition(position => {
@@ -84,6 +86,8 @@ function makePost() {
             setTimeout(function () {
                 $('#alert-section').css('display', 'none');
             }, 2000)
+
+            getPosts();
         },
         error: function () {
             console.log("failed.");
@@ -97,7 +101,7 @@ function getPosts() {
 
     $.get('postServlet')
         .done(function (data) {
-            for (let i = 0; i < data.length; i++) {
+            for (let i = data.length - 1; i >= 0; i--) {
                 postSection.append(buildPost(data[i]));
             }
         }).fail(function () {
@@ -127,13 +131,14 @@ function searchPost() {
 }
 
 function searchUser() {
-    let query = $('#userSearch').val();
+    let query = $('#query').val();
 
     $.get('searchUserServlet', {
         query: query
     }).done(function (data) {
         for (let i = 0; i < data.length; i++) {
             console.log(data[i]);
+            $('#suggested-users-list').append(buildUser(data[i]));
         }
     }).fail(function () {
         console.log("Ekintu kiganye.")
@@ -141,12 +146,13 @@ function searchUser() {
 }
 
 function deletePost(postId) {
-    $.delete('postServlet', {
-        postId: postId
+    $.ajax('postServlet?postId='+postId, {
+        type: 'DELETE'
     }).done(function (data) {
-    })
-        .fail(function () {
-        });
+        getPosts();
+    }).fail(function () {
+        alert("You can only delete your posts.");
+    });
 }
 
 function likePost(postId) {
@@ -171,6 +177,25 @@ function unlikePost(postId) {
     })
 }
 
+function showMap(lat, lon) {
+
+}
+
+function buildUser(user) {
+  return '  <div class="col-lg-3 col-md-3 ">'+
+  '      <div class="card">'+
+  '          <div class="card-img-top">'+
+  '              <div id="profileImage"><b>Itravel</b>'+
+  '              </div>'+
+  '              <p id="full-name">'+
+  '                  <b>'+user.fullname+'</b><br>'+
+  '                  <button class="btn btn-sm btn-round btn btn-primary" href="#">Follow</button>'+
+  '              </p>'+
+  '          </div>'+
+  '      </div> ' +
+  '  </div>';
+}
+
 function buildPost(post) {
     return "" +
         "<div class='media-block'> " +
@@ -185,7 +210,9 @@ function buildPost(post) {
         "<div class='pad-ver'> <span class='tag tag-sm' id='" + post.postId + "'><i class='fa fa-heart text-danger'></i> " + post.likes + " Likes</span> " +
         "<button class='btn btn-sm btn-round btn-default' onclick='likePost(" + post.postId + ")'><i class='material-icons'>thumb_up</i></button>  " +
         "<button class='btn btn-sm btn-round btn-default' onclick='showMap(" + post.postLat + ", " + post.postLong + ")'><i class='material-icons'>map</i></button>  " +
-        "<button data-toggle='collapse' data-target='#post-" + post.postId + "' class='btn btn-sm btn-round btn-default' onclick='getComments(" + post.postId + ")'>View comments</button> <a class='btn btn-sm btn-round btn-primary' href='#'>Comment</a> " +
+        "<button class='btn btn-sm btn-round btn-default' onclick='deletePost(" +post.postId+ ")'><i class='material-icons'>delete</i></button>  " +
+        "<button data-toggle='collapse' data-target='#post-" + post.postId + "' class='btn btn-sm btn-round btn-default' onclick='getComments(" + post.postId + ")'>View comments</button> " +
+        "<button class='btn btn-sm btn-round btn-primary' href='#'>Comment</button> " +
         "</div> <hr>" + " " +
         "<div class='collapse' id='post-" + post.postId + "'></div>" +
         "</div> " +

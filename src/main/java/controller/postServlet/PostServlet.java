@@ -63,8 +63,8 @@ public class PostServlet extends BaseServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int postId = Integer.parseInt(req.getParameter("postId"));
-
-        boolean deleted = postDao.deletePost(postId);
+        int userId = getSessionUserId(req);
+        boolean deleted = postDao.deletePost(postId, userId);
 
         if (deleted) {
             resp.getWriter().write("success");

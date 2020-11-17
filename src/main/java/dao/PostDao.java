@@ -7,8 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -177,10 +175,11 @@ public class PostDao extends BaseDao {
         }
     }
 
-    public boolean deletePost(int postId) {
+    public boolean deletePost(int postId, int userId) {
         boolean deleted = false;
         try {
-            String sql = "DELETE from post_tbl WHERE post_id='"+postId+"'";
+            String sql = "DELETE from post_tbl WHERE post_id='"+postId+"' " +
+                    "and post_user_id = '"+userId+"'";
             PreparedStatement statement = getConnection().prepareStatement(sql);
             deleted = statement.executeUpdate() > 0;
         } catch (SQLException e) {

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = ServletUrl.SEARCH_USER_SERVLET)
+@WebServlet(urlPatterns = "/user"+ServletUrl.SEARCH_USER_SERVLET)
 public class SearchUserServlet extends BaseServlet {
 
     @Override
