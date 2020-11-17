@@ -7,9 +7,14 @@ $(document).ready(function () {
         makePost();
     })
 
+    $('#search-post-btn').click(function (event) {
+        event.preventDefault();
+        searchPost();
+    })
+
     navigator.geolocation.getCurrentPosition(position => {
-        currentLatitude = ""+position.coords.latitude;
-        currentLongitude = ""+position.coords.longitude;
+        currentLatitude = "" + position.coords.latitude;
+        currentLongitude = "" + position.coords.longitude;
     }, () => {
         alert("Your location is not shared. The system shall default to your profile location");
     });
@@ -76,7 +81,7 @@ function makePost() {
                 .text(data)
                 .addClass(' alert-primary');
 
-            setTimeout(function() {
+            setTimeout(function () {
                 $('#alert-section').css('display', 'none');
             }, 2000)
         },
@@ -87,28 +92,38 @@ function makePost() {
 }
 
 function getPosts() {
-    console.log("called..")
-    $.get('postServlet').done(function (data) {
-        for (let i = 0; i < data.length; i++) {
-            $('#post-section').append(buildPost(data[i]));
-        }
-    }).fail(function () {
+    let postSection = $('#post-section');
+    postSection.empty();
+
+    $.get('postServlet')
+        .done(function (data) {
+            for (let i = 0; i < data.length; i++) {
+                postSection.append(buildPost(data[i]));
+            }
+        }).fail(function () {
         console.log("Failed to get posts");
     });
 }
 
 function searchPost() {
-    let query = $('#postSearch').val();
+    let query = $('#query').val();
+    let postSection = $('#post-section');
 
-    $.get('postServlet', {
-        query: query
-    }).done(function (data) {
-        for (let i = 0; i < data.length; i++) {
-            console.log(data[i]);
-        }
-    }).fail(function () {
-        console.log("Ekintu kiganye.")
-    })
+    if (query !== '') {
+        $.get('postServlet', {
+            query: query
+        }).done(function (data) {
+            console.log(data);
+            postSection.empty();
+
+            for (let i = 0; i < data.length; i++) {
+                postSection.append(buildPost(data[i]));
+            }
+        }).fail(function () {
+            console.log("Ekintu kiganye.")
+        })
+    } else alert("Please enter something to search");
+
 }
 
 function searchUser() {
@@ -139,7 +154,6 @@ function likePost(postId) {
         'should_like': true,
         'postId': postId
     }).done(function (data) {
-        console.log(data + " Likes " + postId);
         $('#' + postId).text(data + " Likes");
     }).fail(function () {
         console.log("Failed");
@@ -164,13 +178,13 @@ function buildPost(post) {
         " <div class='media-body'> " +
         "<div class='mar-btm'> " +
         "<a href='#' class='btn-link media-heading box-inline'><b> " + post.posterFullName + "</b></a> " +
-        "<p class='text-muted text-sm-left'><i class='material-icons'>stay_current_portrait</i> "+post.postDate+" </p> " +
+        "<p class='text-muted text-sm-left'><i class='material-icons'>stay_current_portrait</i> " + post.postDate + " </p> " +
         "</div> " +
-        "<p><img id='post-image-tag' style='width: 100%; height: 400px;' src="+post.postImageUrl+"></p> " +
+        "<p><img id='post-image-tag' style='width: 100%; height: 400px;' src=" + post.postImageUrl + "></p> " +
         "<p>" + post.description + "</p> " +
         "<div class='pad-ver'> <span class='tag tag-sm' id='" + post.postId + "'><i class='fa fa-heart text-danger'></i> " + post.likes + " Likes</span> " +
         "<button class='btn btn-sm btn-round btn-default' onclick='likePost(" + post.postId + ")'><i class='material-icons'>thumb_up</i></button>  " +
-        "<button class='btn btn-sm btn-round btn-default' onclick='showMap(" + post.postLat + ", "+post.postLong+")'><i class='material-icons'>map</i></button>  " +
+        "<button class='btn btn-sm btn-round btn-default' onclick='showMap(" + post.postLat + ", " + post.postLong + ")'><i class='material-icons'>map</i></button>  " +
         "<button data-toggle='collapse' data-target='#post-" + post.postId + "' class='btn btn-sm btn-round btn-default' onclick='getComments(" + post.postId + ")'>View comments</button> <a class='btn btn-sm btn-round btn-primary' href='#'>Comment</a> " +
         "</div> <hr>" + " " +
         "<div class='collapse' id='post-" + post.postId + "'></div>" +
