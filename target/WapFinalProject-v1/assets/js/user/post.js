@@ -1,6 +1,8 @@
 let currentLatitude;
 let currentLongitude;
 let API_KEY = 'AIzaSyBS7M9UaLaK9fIgLAV4hXT47bRLldM-IgQ';
+let postsArray = [];
+let currentIndex = 0;
 
 $(document).ready(function () {
     $('#postForm').click(function (event) {
@@ -21,6 +23,12 @@ $(document).ready(function () {
     }, () => {
         alert("Your location is not shared. The system shall default to your profile location");
     });
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
+            ourAutoScrolling();
+        }
+    })
 
     getPosts();
 })
@@ -105,12 +113,24 @@ function getPosts() {
 
     $.get('postServlet')
         .done(function (data) {
-            for (let i = data.length - 1; i >= 0; i--) {
-                postSection.append(buildPost(data[i]));
-            }
+            postsArray = data;
+            currentIndex = 0;
+            ourAutoScrolling();
         }).fail(function () {
         console.log("Failed to get posts");
     });
+}
+
+function ourAutoScrolling() {
+    let looper = currentIndex;
+    let maxCount = 0;
+
+    while(looper < postsArray.length && maxCount < 10) {
+        $('#post-section').append(buildPost(postsArray[looper]));
+        looper++;
+        maxCount++;
+    }
+    currentIndex+= looper;
 }
 
 function searchPost() {
@@ -136,12 +156,12 @@ function searchPost() {
 
 function searchUser() {
     let query = $('#query').val();
+    $('#suggested-users-list').empty();
 
     $.get('searchUserServlet', {
         query: query
     }).done(function (data) {
         for (let i = 0; i < data.length; i++) {
-            console.log(data[i]);
             $('#suggested-users-list').append(buildUser(data[i]));
         }
     }).fail(function () {
@@ -198,11 +218,13 @@ function buildUser(user) {
   return '  <div class="col-lg-3 col-md-3 ">'+
   '      <div class="card">'+
   '          <div class="card-img-top">'+
-  '              <div id="profileImage"><b>Itravel</b>'+
   '              </div>'+
   '              <p id="full-name">'+
   '                  <b>'+user.fullname+'</b><br>'+
-  '                  <button class="btn btn-sm btn-round btn btn-primary" href="#">Follow</button>'+
+  '                  <b>'+user.state+'</b><br>'+
+  '                  <b>'+user.city+'</b><br>'+
+  '                  <b>'+user.gender+'</b><br>'+
+  '                  <button class="btn btn-sm btn-round btn btn-primary" href="#">'+user.email+'</button>'+
   '              </p>'+
   '          </div>'+
   '      </div> ' +

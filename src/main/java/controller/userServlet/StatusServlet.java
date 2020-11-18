@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {ServletUrl.STATUS_SERVLET, "/admin"+ServletUrl.STATUS_SERVLET, "/auth"+ServletUrl.STATUS_SERVLET})
+@WebServlet(urlPatterns = {"/user"+ServletUrl.STATUS_SERVLET, "/admin"+ServletUrl.STATUS_SERVLET, "/auth"+ServletUrl.STATUS_SERVLET})
 public class StatusServlet extends BaseServlet {
 
     @Override

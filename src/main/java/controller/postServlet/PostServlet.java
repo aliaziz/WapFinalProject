@@ -43,8 +43,13 @@ public class PostServlet extends BaseServlet {
 
         Part image = req.getPart("postImage");
         String imagePath = saveImage(image, req);
-        double postLat = Double.parseDouble(req.getParameter("postLat"));
-        double postLong = Double.parseDouble(req.getParameter("postLon"));
+
+        double postLat = 0.0;
+        double postLong = 0.0;
+        String lat = req.getParameter("postLat");
+        String lon = req.getParameter("postLon");
+        if (!lat.equalsIgnoreCase("undefined")) postLat = Double.parseDouble(req.getParameter("postLat"));
+        if (!lon.equalsIgnoreCase("undefined")) postLong = Double.parseDouble(req.getParameter("postLon"));
 
         int likes = Integer.parseInt(req.getParameter("likes"));
         int userId = getSessionUserId(req);

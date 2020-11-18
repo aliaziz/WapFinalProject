@@ -21,6 +21,7 @@
 <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
 <script src="../assets/js/material-kit.js" type="text/javascript"></script>
 <script src="../assets/js/user/post.js"></script>
+<script src="../assets/js/profile/profile.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBS7M9UaLaK9fIgLAV4hXT47bRLldM-IgQ&callback=showMap&libraries=&v=weekly" defer></script>
 </body>
 </html>
