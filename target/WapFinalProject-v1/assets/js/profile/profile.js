@@ -28,9 +28,9 @@ function updateProfile() {
         'zipCode':zipCode
     }).done(function (data) {
         if (data === 'success') {
-            console.log("Show success");
+            alert("Profile Updated");
         } else {
-            console.log("show failed");
+            alert("Profile NOT Updated");
         }
     })
 }

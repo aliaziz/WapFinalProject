@@ -6,10 +6,15 @@
     <welcome-file-list>
         <welcome-file>auth/login.jsp</welcome-file>
     </welcome-file-list>
-    <context-param>
-        <param-name>postImageFiles.dir</param-name>
-        <param-value>postFiles</param-value>
-    </context-param>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error-pages/404.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error-pages/500.html</location>
+    </error-page>
 
     <filter>
         <filter-name>AuthFilter</filter-name>

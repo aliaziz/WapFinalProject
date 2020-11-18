@@ -11,8 +11,5 @@ public class Constants {
     public static final String ADMIN = "admin";
     public static final String PROFILE = "profile";
     public static final String WEATHER = "weather";
-    public static final String DB_CONNECTION = "db_connection";
-    public static final String POST_FILES_DIR_FILE = "POST_FILES_DIR_FILE";
-    public static final String POST_FILES_DIR = "POST_FILES_DIR";
     public static final String CENSORED_WORDS_LIST = "Censored_words_list";
 }

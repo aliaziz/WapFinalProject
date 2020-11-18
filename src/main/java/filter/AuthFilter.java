@@ -26,9 +26,6 @@ public class AuthFilter implements Filter {
                 || uri.endsWith(ServletUrl.REGISTER_SERVLET)
                 || uri.contains(Constants.AUTH)
                 || uri.contains(Constants.ASSETS)
-                || uri.contains(Constants.ADMIN)
-                || uri.contains(Constants.USERS)
-                || uri.contains(Constants.PROFILE)
                 || uri.contains(Constants.WEATHER)
                 || uri.endsWith(ServletUrl.LOGOUT_SERVLET))) {
             response.sendRedirect(DomainUrl.LOGIN_URL);

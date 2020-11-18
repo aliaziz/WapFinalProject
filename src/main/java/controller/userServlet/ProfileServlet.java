@@ -53,7 +53,7 @@ public class ProfileServlet extends BaseServlet {
         if (isUpdated) {
             resp.getWriter().write("success");
         } else {
-            resp.getWriter().write("failed");
+            resp.sendError(406,"failed");
         }
     }
 }
