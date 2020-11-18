@@ -128,14 +128,31 @@ public class PostDao extends BaseDao {
             statement.setInt(8, post.getPostHealth());
 
             isSaved = statement.executeUpdate() > 0;
+            if (isSaved) saveNotification(post.getUserId());
 
-            NotificationDao notificationDao = new NotificationDao();
-            notificationDao.saveNotification(post.getPostId(), post.getUserId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return isSaved;
+    }
+
+    private void saveNotification(int userId) {
+        String getLatestPost = "select max(post_id) from post_tbl where post_user_id = '"+userId+"'";
+
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(getLatestPost);
+            ResultSet set = statement.executeQuery();
+
+            while (set.next()) {
+                NotificationDao notificationDao = new NotificationDao();
+                int postId = set.getInt("max(post_id)");
+                notificationDao.saveNotification(postId, userId);
+
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Post> searchPost(String query) {
