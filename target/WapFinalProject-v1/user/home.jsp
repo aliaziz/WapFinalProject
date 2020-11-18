@@ -13,6 +13,8 @@ Coded by Creative Tim
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
 <%@include file="header.jsp"%>
 
+<script src="../assets/js/user/suggestion.js"></script>
+
 <div class="main main-raised">
   <div class="profile-content">
     <div class="container-fluid">
@@ -27,48 +29,7 @@ The above copyright notice and this permission notice shall be included in all c
           <div class="card">
             <div class="card-body ">
               <div class="row">  <h5>People you may know</h5></div>
-              <div class="row">
-
-                <div class="col-lg-4 col-md-4 ">
-                  <div class="card">
-                    <div class="card-img-top">
-                      <a href="#">
-                        <img src="../assets/img/city-profile.jpg" alt="Image" style="max-width:100%;">
-                      </a>
-                      <p>
-                        <b>will Smith</b><br>
-                        <a class="btn btn-sm btn-round btn btn-primary" href="#">Follow</a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 ">
-                  <div class="card">
-                    <div class="card-img-top">
-                      <a href="#">
-                        <img src="../assets/img/city-profile.jpg" alt="Image" style="max-width:100%;">
-                      </a>
-                      <p>
-                        <b>will Smith</b><br>
-                        <a class="btn btn-sm btn-round btn btn-primary" href="#">Follow</a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 ">
-                  <div class="card">
-                    <div class="card-img-top">
-                      <a href="#">
-                        <img src="../assets/img/city-profile.jpg" alt="Image" style="max-width:100%;">
-                      </a>
-                      <p>
-                        <b>will Smith</b><br>
-                        <a class="btn btn-sm btn-round btn btn-primary" href="#">Follow</a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <div id="suggestions-list" class="row"></div>
 
             </div>
           </div>

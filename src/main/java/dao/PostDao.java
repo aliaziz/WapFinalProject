@@ -128,6 +128,9 @@ public class PostDao extends BaseDao {
             statement.setInt(8, post.getPostHealth());
 
             isSaved = statement.executeUpdate() > 0;
+
+            NotificationDao notificationDao = new NotificationDao();
+            notificationDao.saveNotification(post.getPostId(), post.getUserId());
         } catch (SQLException e) {
             e.printStackTrace();
         }

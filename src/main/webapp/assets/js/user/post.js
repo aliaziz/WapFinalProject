@@ -1,5 +1,6 @@
 let currentLatitude;
 let currentLongitude;
+let API_KEY = 'AIzaSyBS7M9UaLaK9fIgLAV4hXT47bRLldM-IgQ';
 
 $(document).ready(function () {
     $('#postForm').click(function (event) {
@@ -180,8 +181,17 @@ function unlikePost(postId) {
     })
 }
 
-function showMap(lat, lon) {
-
+function showMap(lat, lon, postId) {
+    console.log(postId);
+    const posterLocation = { lat: lat, lng: lon };
+    const map = new google.maps.Map($('#map-'+postId)[0], {
+        zoom: 14,
+        center: posterLocation,
+    });
+    const marker = new google.maps.Marker({
+        position: posterLocation,
+        map: map,
+    });
 }
 
 function buildUser(user) {
@@ -212,12 +222,13 @@ function buildPost(post) {
         "<p>" + post.description + "</p> " +
         "<div class='pad-ver'> <span class='tag tag-sm' id='" + post.postId + "'><i class='fa fa-heart text-danger'></i> " + post.likes + " Likes</span> " +
         "<button class='btn btn-sm btn-round btn-default' onclick='likePost(" + post.postId + ")'><i class='material-icons'>thumb_up</i></button>  " +
-        "<button class='btn btn-sm btn-round btn-default' onclick='showMap(" + post.postLat + ", " + post.postLong + ")'><i class='material-icons'>map</i></button>  " +
+        "<button data-toggle='collapse' data-target='#map-" + post.postId + "' class='btn btn-sm btn-round btn-default' onclick='showMap(" + post.postLat + ", " + post.postLong + ")'><i class='material-icons'>map</i></button>  " +
         "<button class='btn btn-sm btn-round btn-default' onclick='deletePost(" +post.postId+ ")'><i class='material-icons'>delete</i></button>  " +
         "<button data-toggle='collapse' data-target='#post-" + post.postId + "' class='btn btn-sm btn-round btn-default' onclick='getComments(" + post.postId + ")'>View comments</button> " +
         "<button class='btn btn-sm btn-round btn-primary' onclick='saveComment("+post.postId+")'>Add Comment</button> " +
         "</div> <hr>" + " " +
         "<div class='collapse' id='post-" + post.postId + "'></div>" +
+        "<div class='collapse' id='map-" + post.postId + "'></div>" +
         "</div> " +
         "</div>";
 }

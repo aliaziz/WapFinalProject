@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="../assets/css/material-kit.css" rel="stylesheet"/>
+    <script src="../assets/js/core/jquery.min.js" type="text/javascript"></script>
+    <script src="../assets/js/user/notification.js"></script>
 </head>
 
 <body class="profile-page sidebar-collapse">
@@ -56,16 +58,10 @@
                 <li class="dropdown nav-item">
                     <a href="#" class="dropdown-toggle nav-link " data-toggle="dropdown">
                         <i class="material-icons ">notifications</i>
-                        <span class="notification ">5</span>
+                        <span id="notification-count" class="notification ">0</span>
 
                     </a>
-                    <div class="dropdown-menu dropdown-with-icons">
-                        <a class="dropdown-item" href="#">Mike John responded to your email</a>
-                        <a class="dropdown-item" href="#">You have 5 new tasks</a>
-                        <a class="dropdown-item" href="#">You're now friend with Andrew</a>
-                        <a class="dropdown-item" href="#">Another Notification</a>
-                        <a class="dropdown-item" href="#">Another One</a>
-                    </div>
+                    <div id="notification-list" class="dropdown-menu dropdown-with-icons"></div>
                 </li>
                 <li class="dropdown nav-item">
                     <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
